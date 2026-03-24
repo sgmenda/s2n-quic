@@ -13,6 +13,12 @@ pub struct MerkleTreeBuilder {
     levels: Vec<Vec<TreeHash>>,
 }
 
+impl Default for MerkleTreeBuilder {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl MerkleTreeBuilder {
     pub fn new() -> Self {
         Self {

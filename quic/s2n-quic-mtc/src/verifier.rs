@@ -157,7 +157,8 @@ pub fn verify_mtc_cert(cert_der: &[u8], anchor: &TrustAnchor) -> Result<(), Veri
     for b in serial_content {
         index = (index << 8) | (*b as u64);
     }
-    tbs_cursor = &tbs_cursor[serial_len..];
+    // Skip the rest of the TBSCertificate parsing
+    let _ = serial_len; // Silence unused variable warning
 
     // Compute entry_hash from TBSCertificate (plants-02 format)
     let entry_hash = compute_entry_hash_from_tbs(tbs_der).ok_or(VerifyError::MalformedTbs)?;

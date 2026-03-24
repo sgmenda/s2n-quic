@@ -20,7 +20,6 @@ pub fn find_covering_subtrees(start: u64, end: u64) -> Vec<Subtree> {
     let split = 63 - (start ^ last).leading_zeros(); // bit index of MSB difference
     let mask = (1u64 << split) - 1;
     let mid = last & !mask;
-    let left_split = (!start & mask).leading_zeros().wrapping_sub(64 - split) as u64;
     // Actually: bit_length of (!start & mask)
     let left_split = if (!start & mask) == 0 {
         0

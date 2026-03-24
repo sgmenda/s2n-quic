@@ -232,8 +232,8 @@ fn main() {
 
     println!("Certificate sizes (tree size: {tree_size} entries)");
     println!("─────────────────────────────────────────────────────────────");
-    println!("{:<25} {:>10} {:>8}  {}", "Type", "Cert size", "Proof", "Verified");
-    println!("{:<25} {:>10} {:>8}  {}", "────", "─────────", "─────", "────────");
+    println!("{:<25} {:>10} {:>8}  Verified", "Type", "Cert size", "Proof");
+    println!("{:<25} {:>10} {:>8}  ────────", "────", "─────────", "─────");
 
     let results: Vec<CertResult> = vec![
         make_landmark_cert(&tree, idx),

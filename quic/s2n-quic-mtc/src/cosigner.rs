@@ -6,8 +6,10 @@
 //! Implements the MTCSubtreeSignatureInput format from
 //! draft-ietf-plants-merkle-tree-certs Section 5.4.1.
 
-use crate::tree::{TreeHash, HASH_SIZE};
-use aws_lc_rs::signature::{self, Ed25519KeyPair, KeyPair, UnparsedPublicKey, ED25519};
+use crate::tree::TreeHash;
+#[allow(unused_imports)]
+use crate::tree::HASH_SIZE;
+use aws_lc_rs::signature::{Ed25519KeyPair, KeyPair, UnparsedPublicKey, ED25519};
 use aws_lc_rs::unstable::signature::{PqdsaKeyPair, ML_DSA_87, ML_DSA_87_SIGNING};
 
 /// The fixed label for domain separation: "mtc-subtree/v1\n\0"

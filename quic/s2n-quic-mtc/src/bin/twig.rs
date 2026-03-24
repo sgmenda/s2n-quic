@@ -376,7 +376,7 @@ async fn main() {
     } else {
         let mut seed = [0u8; 32];
         aws_lc_rs::rand::SystemRandom::new().fill(&mut seed).expect("rng failed");
-        std::fs::write(&cosigner_key_path, &seed).expect("failed to write cosigner seed");
+        std::fs::write(&cosigner_key_path, seed).expect("failed to write cosigner seed");
         MlDsaCosigner::from_seed(COSIGNER_ID, &seed)
     };
 

@@ -53,7 +53,7 @@ impl TileStore for LocalStore {
         // Write atomically: write to temp file, then rename
         let tmp = full.with_extension("tmp");
         std::fs::write(&tmp, data)?;
-        std::fs::rename(&tmp, &full)?;
+        std::fs::rename(tmp, &full)?;
         Ok(())
     }
 
@@ -83,7 +83,7 @@ impl CheckpointStore for LocalStore {
         // Atomic write
         let tmp = self.checkpoint_path().with_extension("tmp");
         std::fs::write(&tmp, new)?;
-        std::fs::rename(&tmp, &self.checkpoint_path())?;
+        std::fs::rename(tmp, self.checkpoint_path())?;
         Ok(true)
     }
 }
