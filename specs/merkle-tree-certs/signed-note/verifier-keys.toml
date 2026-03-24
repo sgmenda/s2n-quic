@@ -1,0 +1,32 @@
+target = "signed-note.md#verifier-keys"
+
+# Verifier keys
+#
+#     <key name>+hex(32-bit key ID)+base64(signature type || public key)
+# 
+# Verifier keys (or *vkey*s for short) are encoded as text strings composed of
+# three parts separated by a plus (U+002B) character: the key name, the hex
+# encoding of the key ID, and the base64 encoding of the concatenation of the
+# signature type and the public key material.
+# 
+# The key name and ID MUST match those used in the signatures. The same public key
+# SHOULD NOT be reused for different signature types, but if it is, a different
+# key ID MUST be used for each signature type.
+# 
+# The public key material for Ed25519 vkeys is the 32-byte Ed25519 public key
+# encoding according to [RFC 8032][].
+
+[[spec]]
+level = "MUST"
+quote = '''
+The key name and ID MUST match those used in the signatures.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The same public key
+SHOULD NOT be reused for different signature types, but if it is, a different
+key ID MUST be used for each signature type.
+'''
+

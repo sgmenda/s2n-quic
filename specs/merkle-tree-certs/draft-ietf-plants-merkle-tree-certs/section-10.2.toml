@@ -1,0 +1,60 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-10.2"
+
+# Choosing Cosigners
+#
+#    In selecting trusted cosigners and cosigner requirements
+#    (Section 7.3), relying parties navigate a number of trade-offs:
+# 
+#    A consistency-checking cosigner, such as [TLOG-WITNESS], is
+#    inexpensive to run, but does not guarantee durable logging.  A
+#    mirroring cosigner is more expensive and may take longer to cosign
+#    structures.  Requiring a mirror signature provides stronger
+#    guarantees to the relying party, which in turn can reduce the
+#    requirements on CAs (see Section 10.3), however it may cause
+#    certificate issuance to take longer.  That said, mirrors are
+#    comparable to CT logs, if not cheaper (see Section 10.1), so they may
+#    be appropriate in PKIs where running CT logs is already viable.
+# 
+#    Relying parties that require larger quorums of trusted cosigners can
+#    reduce the trust placed in any individual cosigner.  However, larger
+#    quorums result in larger, more expensive standalone certificates.
+#    The cost of standalone certificates will depend on how frequently the
+#    landmark optimization occurs in a given PKI.  Conversely, relying
+#    parties that require smaller quorums have smaller standalone
+#    certificates, but place more trust in their cosigners.
+# 
+#    Relying party policies also impact monitor operation.  If a relying
+#    party accepts any one of three cosigners, monitors SHOULD check the
+#    checkpoints of all three.  Otherwise, a malicious CA may send
+#    different split views to different cosigners.  More generally,
+#    monitors SHOULD check the checkpoints in the union of all cosigners
+#    trusted by all supported relying parties.  This is an efficient check
+#    because, if the CA is operating correctly, all cosigners will observe
+#    the same tree.  Thus the monitor only needs to check consistency
+#    proofs between the checkpoints, and check the log contents themselves
+#    once.  Monitors MAY also rely on other parties in the transparency
+#    ecosystem to perform this check.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+If a relying
+party accepts any one of three cosigners, monitors SHOULD check the
+checkpoints of all three.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+More generally,
+monitors SHOULD check the checkpoints in the union of all cosigners
+trusted by all supported relying parties.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Monitors MAY also rely on other parties in the transparency
+ecosystem to perform this check.
+'''
+

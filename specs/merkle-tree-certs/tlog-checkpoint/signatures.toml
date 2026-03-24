@@ -1,0 +1,42 @@
+target = "tlog-checkpoint.md#signatures"
+
+# Signatures
+#
+# Logs MUST not sign any checkpoint which is inconsistent with any checkpoint it
+# previously signed. Two checkpoints are inconsistent if a consistency proof can't
+# be constructed from one to the other.
+# 
+# The log’s key name in its signature line SHOULD match the origin line.
+# 
+# Logs SHOULD use Ed25519 signatures to sign the checkpoint, but MAY use any note
+# signature algorithm based on the ecosystem they operate in.
+# 
+# According to the note specification, clients MUST ignore unknown signatures.
+# This enables, for example, log key rotation, and witness cosigning.
+
+[[spec]]
+level = "MUST"
+quote = '''
+Logs MUST not sign any checkpoint which is inconsistent with any checkpoint it
+previously signed.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+The log’s key name in its signature line SHOULD match the origin line.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Logs SHOULD use Ed25519 signatures to sign the checkpoint, but MAY use any note
+signature algorithm based on the ecosystem they operate in.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+According to the note specification, clients MUST ignore unknown signatures.
+'''
+

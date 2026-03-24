@@ -1,0 +1,99 @@
+target = "draft-ietf-tls-trust-anchor-ids.txt#section-8.1"
+
+# Relying Parties
+#
+#    The trust_anchors extension is analogous to the
+#    certificate_authorities extension (Section 4.2.4 of [RFC8446]), but
+#    more size-efficient.  Like certificate_authorities, trust_anchors
+#    reveals some information about the relying party's trust anchors.
+#    However, unlike certificate_authorities, trust_anchors allows a
+#    relying party to only reveal a trust anchor in response to the
+#    authenticating party's list, which reduces the fingerprinting
+#    exposure.  This section provides guidance for a relying party to
+#    configure this mechanism, based on its privacy goals.
+# 
+#    When using this extension, a relying party's trust anchors may be
+#    divided into three categories:
+# 
+#    1.  Trust anchors whose IDs the relying party never sends, but still
+#        trusts.  These are trust anchors that do not participate in this
+#        mechanism.
+# 
+#    2.  Trust anchors whose IDs the relying party sends _conditionally_,
+#        i.e. only if the server offers them.  For example, the relying
+#        party may indicate support for a trust anchor if its ID is listed
+#        in the server's HTTPS/SVCB record or trust anchor list in
+#        EncryptedExtensions.
+# 
+#    3.  Trust anchors whose IDs the relying party sends
+#        _unconditionally_, i.e. independently of the authenticating
+#        party's behavior.
+# 
+#    Each of these categories carries a different fingerprinting exposure:
+# 
+#    Trust anchors that do not participate are not revealed by this
+#    extension.  However, they have some fingerprinting exposure due to
+#    being trusted.  Given a certification path, an authenticating party
+#    can probe whether the relying party trusts the trust anchor by seeing
+#    if the relying party accepts it.
+# 
+#    Trust anchor IDs sent in response to the authenticating party can
+#    only be observed actively.  That is, the authenticating party could
+#    vary its list and observe how the client responds, in order to probe
+#    for the client's trust anchor list.  This is similar to the exposure
+#    of trust anchors not participating in this extension, except that the
+#    trust anchor can be probed by only knowing the trust anchor ID.
+# 
+#    Trust anchor IDs sent unconditionally can be observed passively.
+#    This mode is analogous to the certificate_authorities extension.
+#    Relying parties SHOULD NOT unconditionally advertise trust anchor
+#    lists that are unique to an individual user.  Rather,
+#    unconditionally-advertised lists SHOULD be empty or computed only
+#    from the trust anchors common to the relying party's anonymity set
+#    (Section 3.3 of [RFC6973]).
+# 
+#    Relying parties SHOULD determine which trust anchors participate in
+#    this mechanism, and whether to advertise them unconditionally or
+#    conditionally, based on their privacy goals.  PKIs that reliably use
+#    the DNS service parameter (Section 5) can rely on conditional
+#    advertisement for stronger privacy properties without a round-trip
+#    penalty.
+# 
+#    Additionally, a relying party that computes the trust_anchors
+#    extension based on prior state may allow observers to correlate
+#    across connections.  Relying parties SHOULD NOT maintain such state
+#    across connections that are intended to be uncorrelated.  As above,
+#    implementing the DNS service parameter can avoid a round-trip penalty
+#    without such state.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Relying parties SHOULD NOT unconditionally advertise trust anchor
+lists that are unique to an individual user.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Rather,
+unconditionally-advertised lists SHOULD be empty or computed only
+from the trust anchors common to the relying party's anonymity set
+(Section 3.3 of [RFC6973]).
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Relying parties SHOULD determine which trust anchors participate in
+this mechanism, and whether to advertise them unconditionally or
+conditionally, based on their privacy goals.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Relying parties SHOULD NOT maintain such state
+across connections that are intended to be uncorrelated.
+'''
+

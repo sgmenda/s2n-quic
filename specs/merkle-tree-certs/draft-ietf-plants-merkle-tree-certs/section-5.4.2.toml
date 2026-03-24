@@ -1,0 +1,51 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-5.4.2"
+
+# Signature Algorithms
+#
+#    The cosigner's public key specifies both the key material and the
+#    signature algorithm to use with the key material.  In order to change
+#    key or signature parameters, a cosigner operator MUST deploy a new
+#    cosigner, with a new cosigner ID.  Signature algorithms MUST fully
+#    specify the algorithm parameters, such as hash functions used.  This
+#    document defines the following signature algorithms:
+# 
+#    *  ECDSA with P-256 and SHA-256 [FIPS186-5]
+# 
+#    *  ECDSA with P-384 and SHA-384 [FIPS186-5]
+# 
+#    *  Ed25519 [RFC8032]
+# 
+#    *  ML-DSA-44 [FIPS204]
+# 
+#    *  ML-DSA-65 [FIPS204]
+# 
+#    *  ML-DSA-87 [FIPS204]
+# 
+#    Other documents or deployments MAY define other signature schemes and
+#    formats.  Log clients that accept cosignatures from some cosigner are
+#    assumed to be configured with all parameters necessary to verify that
+#    cosigner's signatures, including the signature algorithm and version
+#    of the signature format.
+
+[[spec]]
+level = "MUST"
+quote = '''
+In order to change
+key or signature parameters, a cosigner operator MUST deploy a new
+cosigner, with a new cosigner ID.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Signature algorithms MUST fully
+specify the algorithm parameters, such as hash functions used.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Other documents or deployments MAY define other signature schemes and
+formats.
+'''
+

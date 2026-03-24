@@ -1,0 +1,132 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-10.3"
+
+# Log Availability
+#
+#    CAs and mirrors are expected to serve their log contents over HTTP.
+#    It is possible for the contents to be unavailable, either due to
+#    temporary service outage or because the log has been pruned
+#    (Section 5.6.1).  If some resources are unavailable, they may not be
+#    visible to monitors.
+# 
+#    As in CT, PKIs that deploy Merkle Tree certificates SHOULD establish
+#    availability policies.  These policies SHOULD be adhered to by
+#    trusted CAs and mirrors, and enforced by relying party vendors as a
+#    condition of trust.  Exact availability policies for these services
+#    are out of scope for this document, but this section provides some
+#    general guidance.
+# 
+#    Availability policies SHOULD specify how long an entry must be made
+#    available, before a CA or mirror is permitted to prune the entry.  It
+#    is RECOMMENDED to define this using a _retention period_, which is
+#    some time after the entry has expired.  In such a policy, an entry
+#    could only be pruned if it, and all preceding entries, have already
+#    expired for the retention period.  Policies MAY opt to set different
+#    retention periods between CAs and mirrors.  Permitting limited log
+#    retention is analogous to the CT practice of temporal sharding
+#    [CHROME-CT], except that a pruned issuance log remains compatible
+#    with older, unupdated relying parties.
+# 
+#    Such policies impact monitors.  If the retention period is, e.g. 6
+#    months, this means that monitors are expected to check entries of
+#    interest within 6 months.  It also means that a new monitor may only
+#    be aware of a 6 month history of entries issued for a particular
+#    domain.
+# 
+#    If historical data is not available to verify the retention period,
+#    such as information in another mirror or a trusted summary of
+#    expiration dates of entries, it may not be possible to confirm
+#    correct behavior.  This is mitigated by the revocation process
+#    described in Section 7.5: if a CA were to prune a forward-dated entry
+#    and, in the 6 months when the entry was available, no monitor noticed
+#    the unusual expiry, an updated relying party would not accept it
+#    anyway.
+# 
+#    The log pruning process simply makes some resources unavailable.
+#    Availability policies SHOULD constrain log pruning in the same way as
+#    general resource availability.  That is, if it would be a policy
+#    violation for the log to fail to serve a resource, it should also be
+#    a policy violation for the log to prune such that the resource is
+#    removed, and vice versa.
+# 
+#    PKIs that require mirror cosignatures (Section 7.3) can impose
+#    minimal to no availability requirements on CAs without compromising
+#    transparency goals.  If a CA never makes an entry available, mirrors
+#    will be unable to update.  This will prevent relying parties from
+#    accepting the undisclosed entries.  However, a CA that is
+#    persistently unavailable may not offer sufficient benefit to be used
+#    by authenticating parties or trusted by relying parties.
+# 
+#    However, if a mirror's interface becomes unavailable, monitors may be
+#    unable to check for unauthorized issuance, if the entries are not
+#    available in another mirror.  This does compromise transparency
+#    goals.  As such, availability policies SHOULD set availability
+#    expectations on mirrors.  This can also be mitigated by using
+#    multiple mirrors, either directly enforced in cosigner requirements,
+#    or by keeping mirrors up-to-date with each other.
+# 
+#    In PKIs that do not require mirroring cosigners, the CA's serving
+#    endpoint is more crucial for monitors.  Such PKIs SHOULD set
+#    availability requirements on CAs.
+# 
+#    In each of these cases, availability failures can be mitigated by
+#    revoking the unavailable entries by index, as described in
+#    Section 7.5, likely as a first step in a broader distrust.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+As in CT, PKIs that deploy Merkle Tree certificates SHOULD establish
+availability policies.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+These policies SHOULD be adhered to by
+trusted CAs and mirrors, and enforced by relying party vendors as a
+condition of trust.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Availability policies SHOULD specify how long an entry must be made
+available, before a CA or mirror is permitted to prune the entry.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+It
+is RECOMMENDED to define this using a _retention period_, which is
+some time after the entry has expired.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Policies MAY opt to set different
+retention periods between CAs and mirrors.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Availability policies SHOULD constrain log pruning in the same way as
+general resource availability.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+As such, availability policies SHOULD set availability
+expectations on mirrors.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Such PKIs SHOULD set
+availability requirements on CAs.
+'''
+

@@ -1,0 +1,112 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-8.2"
+
+# Using Trust Anchor IDs
+#
+#    A standalone certificate will generally be accepted by relying
+#    parties that trust the issuing CA.  To determine this, a standalone
+#    certificate has a trust anchor ID of the corresponding log ID
+#    (Section 5.2).  The authenticating party can obtain this information
+#    either by parsing the certificate's issuer field or via out-of-band
+#    information as described in Section 3.2 of
+#    [I-D.ietf-tls-trust-anchor-ids].  Authenticating and relying parties
+#    SHOULD use the trust_anchors extension to determine whether the
+#    standalone certificate would be acceptable.
+# 
+#    [[TODO: Ideally we would negotiate cosigners.
+#    https://github.com/tlswg/tls-trust-anchor-ids/issues/54 has a sketch
+#    of how one might do this, though other designs are possible.
+#    Negotiating cosigners allows the ecosystem to manage cosigners
+#    efficiently, without needing to collect every possible cosignature
+#    and send them all at once.  This is wasteful, particularly with post-
+#    quantum algorithms.]]
+# 
+#    A standalone certificate MAY also be sent without explicit relying
+#    party trust signals, however doing so means the authenticating party
+#    implicitly assumes the relying party trusts the issuing CA.  This may
+#    be viable if, for example, the CA is relatively ubiquitous among
+#    supported relying parties.
+# 
+#    A landmark certificate, defined against landmark number L, has a
+#    trust anchor ID of base_id, concatenated with L, as described in
+#    Section 6.3.1, and SHOULD be provisioned with this value.
+#    Additionally, relying parties that trust later landmarks may also be
+#    assumed to trust landmark L, so a landmark certificate SHOULD also be
+#    provisioned with an additional trust anchor range whose base is
+#    base_id, min is L, and max is L + max_active_landmarks - 1.
+# 
+#    A relying party that has been configured with trusted subtrees
+#    (Section 7.4) derived from a set of landmarks SHOULD configure the
+#    trust_anchors extension to advertise the highest supported landmark
+#    in the set.  The selection procedures defined in
+#    [I-D.ietf-tls-trust-anchor-ids] and Section 8.1 will then correctly
+#    determine whether a landmark certificate is compatible with the
+#    relying party.
+# 
+#    When both a landmark and standalone certificate are supported by a
+#    relying party, an authenticating party SHOULD preferentially use the
+#    landmark certificate.  A landmark certificate asserts the same
+#    information as its standalone counterpart, but is expected to be
+#    smaller.  An authenticating party SHOULD NOT send a landmark
+#    certificate without a signal that the relying party trusts the
+#    corresponding landmark subtree.  Even if the relying party is assumed
+#    to trust the issuing CA, the relying party may not have sufficiently
+#    up-to-date trusted subtrees.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Authenticating and relying parties
+SHOULD use the trust_anchors extension to determine whether the
+standalone certificate would be acceptable.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+A standalone certificate MAY also be sent without explicit relying
+party trust signals, however doing so means the authenticating party
+implicitly assumes the relying party trusts the issuing CA.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+A landmark certificate, defined against landmark number L, has a
+trust anchor ID of base_id, concatenated with L, as described in
+Section 6.3.1, and SHOULD be provisioned with this value.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Additionally, relying parties that trust later landmarks may also be
+assumed to trust landmark L, so a landmark certificate SHOULD also be
+provisioned with an additional trust anchor range whose base is
+base_id, min is L, and max is L + max_active_landmarks - 1.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+A relying party that has been configured with trusted subtrees
+(Section 7.4) derived from a set of landmarks SHOULD configure the
+trust_anchors extension to advertise the highest supported landmark
+in the set.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+When both a landmark and standalone certificate are supported by a
+relying party, an authenticating party SHOULD preferentially use the
+landmark certificate.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+An authenticating party SHOULD NOT send a landmark
+certificate without a signal that the relying party trusts the
+corresponding landmark subtree.
+'''
+

@@ -1,0 +1,32 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-6.3.3"
+
+# Constructing Landmark Certificates
+#
+#    Given a TBSCertificateLogEntry in the issuance log and a landmark
+#    sequence, a landmark certificate is constructed as follows:
+# 
+#    1.  Wait for the first landmark to be allocated that contains the
+#        entry.
+# 
+#    2.  Determine the landmark's subtrees and select the one that
+#        contains the entry.
+# 
+#    3.  Construct a certificate (Section 6.1) using the selected subtree
+#        and no signatures.
+# 
+#    Before sending this certificate, the authenticating party SHOULD
+#    obtain an application-protocol-specific signal that implies the
+#    relying party has been configured with the corresponding landmark.
+#    (Section 7.4 defines how relying parties are configured.)  The trust
+#    anchor ID of the landmark may be used as an efficient identifier in
+#    the application protocol.  Section 8 discusses how to do this in TLS
+#    [RFC8446].
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Before sending this certificate, the authenticating party SHOULD
+obtain an application-protocol-specific signal that implies the
+relying party has been configured with the corresponding landmark.
+'''
+

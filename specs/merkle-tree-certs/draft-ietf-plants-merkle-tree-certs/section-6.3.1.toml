@@ -1,0 +1,147 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-6.3.1"
+
+# Landmark Tree Sizes
+#
+#    A landmark certificate is constructed based on a _landmark sequence_,
+#    which is a sequence of _landmarks_. Landmarks are agreed-upon tree
+#    sizes across the ecosystem for optimizing certificates.  Landmarks
+#    SHOULD be allocated by the CA, but they can also be allocated by some
+#    other coordinating party.  It is possible, but NOT RECOMMENDED, for
+#    multiple landmark sequences to exist per CA.  Landmarks are allocated
+#    to balance minimizing the delay in obtaining a landmark certificate
+#    with minimizing the size of the relying party's predistributed state.
+# 
+#    A landmark sequence has the following fixed parameters:
+# 
+#    *  base_id: An OID arc for trust anchor IDs of individual landmarks
+# 
+#    *  max_active_landmarks: A positive integer, describing the maximum
+#       number of landmarks that may contain unexpired certificates at any
+#       time
+# 
+#    *  landmark_url: Some URL to fetch the current list of landmarks
+# 
+#    Landmarks are numbered consecutively from zero.  Each landmark has a
+#    trust anchor ID, determined by appending the landmark number to
+#    base_id.  For example, the trust anchor ID for landmark 42 of a
+#    sequence with base_id of 32473.1 would be 32473.1.42.
+# 
+#    Each landmark specifies a tree size.  The first landmark, numbered
+#    zero, is always a tree size of zero.  The sequence of tree sizes MUST
+#    be append-only and strictly monotonically increasing.
+# 
+#    Landmarks determine _landmark subtrees_: for each landmark, other
+#    than number zero, let tree_size be the landmark's tree size and
+#    prev_tree_size be that of the previous landmark.  As described in
+#    Section 4.5, select the one or two subtrees that cover
+#    [prev_tree_size, tree_size).  Each of those subtrees is a landmark
+#    subtree.  Landmark zero has no landmark subtrees.
+# 
+#    The most recent max_active_landmarks landmarks are said to be
+#    _active_. Landmarks MUST be allocated such that, at any given time,
+#    only active landmarks contain unexpired certificates.  The active
+#    landmark subtrees are those determined by the active landmarks.
+#    There are at most 2 * max_active_landmarks active landmark subtrees
+#    at any time.  Every unexpired entry will be contained in one or more
+#    landmark subtree, or between the last landmark subtree and the latest
+#    checkpoint.  Active landmark subtrees are predistributed to the
+#    relying party as trusted subtrees, as described in Section 7.4.
+# 
+#    It is RECOMMENDED that landmarks be allocated following the procedure
+#    described in Section 6.3.2.  If landmarks are allocated incorrectly
+#    (e.g. past landmarks change, or max_active_landmarks is inaccurate),
+#    there are no security consequences, but some older certificates may
+#    fail to validate.
+# 
+#    Relying parties will locally retain up to 2 * max_active_landmarks
+#    hashes (Section 7.4) per CA, so max_active_landmarks should be set to
+#    balance the delay between landmarks and the amount of state the
+#    relying party must maintain.  Using the recommended procedure below,
+#    a CA with a maximum certificate lifetime of 7 days, allocating a
+#    landmark every hour, will have a max_active_landmarks of 169.  The
+#    client state is then 338 hashes, or 10,816 bytes with SHA-256.
+# 
+#    landmark_url MUST serve a resource with Content-Type: text/plain;
+#    charset=utf-8 and the following lines.  Each line MUST be terminated
+#    by a newline character (U+000A):
+# 
+#    *  Two space-separated non-negative decimal integers: <last_landmark>
+#       <num_active_landmarks>.  This line MUST satisfy the following,
+#       otherwise it is invalid:
+# 
+#       -  num_active_landmarks <= max_active_landmarks
+# 
+#       -  num_active_landmarks <= last_landmark
+# 
+#    *  num_active_landmarks + 1 lines each containing a single non-
+#       negative decimal integer, containing a tree size.  Numbered from
+#       zero to num_active_landmarks, line i contains the tree size for
+#       landmark last_landmark - i.  The integers MUST be strictly
+#       monotonically decreasing and lower or equal to the log's latest
+#       tree size.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Landmarks
+SHOULD be allocated by the CA, but they can also be allocated by some
+other coordinating party.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+It is possible, but NOT RECOMMENDED, for
+multiple landmark sequences to exist per CA.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The sequence of tree sizes MUST
+be append-only and strictly monotonically increasing.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Landmarks MUST be allocated such that, at any given time,
+only active landmarks contain unexpired certificates.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+It is RECOMMENDED that landmarks be allocated following the procedure
+described in Section 6.3.2.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+landmark_url MUST serve a resource with Content-Type: text/plain;
+charset=utf-8 and the following lines.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Each line MUST be terminated
+by a newline character (U+000A):
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+This line MUST satisfy the following,
+otherwise it is invalid:
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The integers MUST be strictly
+monotonically decreasing and lower or equal to the log's latest
+tree size.
+'''
+

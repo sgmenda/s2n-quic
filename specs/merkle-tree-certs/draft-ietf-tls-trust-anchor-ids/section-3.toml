@@ -1,0 +1,76 @@
+target = "draft-ietf-tls-trust-anchor-ids.txt#section-3"
+
+# Trust Anchor Identifiers
+#
+#    This section defines trust anchor IDs, which are short, unique
+#    identifiers for a trust anchor.  To simplify allocation, trust anchor
+#    IDs are defined with object identifiers (OIDs) [X680] and IANA-
+#    registered Private Enterprise Numbers (PENs) [RFC9371]:
+# 
+#    A trust anchor ID is defined with an OID under the OID arc of some
+#    PEN.  For compactness, they are represented as relative object
+#    identifiers (see Section 33 of [X680]), relative to the OID prefix
+#    1.3.6.1.4.1.  For example, an organization with PEN 32473 might
+#    define a trust anchor ID with the OID 1.3.6.1.4.1.32473.1.  As a
+#    relative object identifier, it would be the OID 32473.1.
+# 
+#    Depending on the protocol, trust anchor IDs may be represented in one
+#    of three ways:
+# 
+#    *  For use in ASN.1-based protocols, a trust anchor ID's ASN.1
+#       representation is the relative object identifier described above.
+#       This may be encoded in DER [X690], or some other ASN.1 encoding.
+#       The example ID's DER encoding is the six-octet sequence {0x0d,
+#       0x04, 0x81, 0xfd, 0x59, 0x01}.
+# 
+#    *  For use in binary protocols such as TLS, a trust anchor ID's
+#       binary representation consists of the contents octets of the
+#       relative object identifier's DER encoding, as described in
+#       Section 8.20 of [X690].  Note this omits the tag and length
+#       portion of the encoding.  The example ID's binary representation
+#       is the four-octet sequence {0x81, 0xfd, 0x59, 0x01}.
+# 
+#    *  For use in ASCII-compatible text protocols, a trust anchor ID's
+#       ASCII representation is the relative object identifier in dotted
+#       decimal notation.  The example ID's ASCII representation is
+#       32473.1.
+# 
+#    Trust anchor IDs SHOULD be allocated by the CA operator and common
+#    among relying parties that trust the CA.  They MAY be allocated by
+#    another party, e.g. when bootstrapping an existing ecosystem, if all
+#    parties agree on the ID.  In particular, the protocol requires
+#    authenticating and relying parties to agree, and the authenticating
+#    party's configuration typically comes from the CA.
+# 
+#    The length of a trust anchor ID's binary representation MUST NOT
+#    exceed 255 bytes.  It SHOULD be significantly shorter, for bandwidth
+#    efficiency.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Trust anchor IDs SHOULD be allocated by the CA operator and common
+among relying parties that trust the CA.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+They MAY be allocated by
+another party, e.g.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The length of a trust anchor ID's binary representation MUST NOT
+exceed 255 bytes.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+It SHOULD be significantly shorter, for bandwidth
+efficiency.
+'''
+

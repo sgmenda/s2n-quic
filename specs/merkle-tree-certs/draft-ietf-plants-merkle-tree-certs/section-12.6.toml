@@ -1,0 +1,108 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-12.6"
+
+# Certificate Malleability
+#
+#    An ASN.1 structure like X.509’s Certificate is an abstract data type
+#    that is independent of its serialization.  There are multiple
+#    encoding rules for ASN.1.  Commonly, protocols use DER [X.690], such
+#    as Section 4.4.2 of [RFC8446].  This aligns with Section 4.1.1.3 of
+#    [RFC5280], which says X.509 signatures are computed over the DER-
+#    encoded TBSCertificate.  After signature verification, applications
+#    can assume the DER-encoded TBSCertificate is not malleable.
+# 
+#    When the signature verification process in Section 7.2 first
+#    transforms the TBSCertificate into a TBSCertificateLogEntry, it
+#    preserves this non-malleability.  There is a unique valid DER
+#    encoding for every abstract TBSCertificate structure, so malleability
+#    of the DER-encoded TBSCertificate reduces to malleability of the
+#    TBSCertificate value:
+# 
+#    *  The version, issuer, validity, subject, issuerUniqueID,
+#       subjectUniqueID, and extensions fields are copied from the
+#       TBSCertificate to the TBSCertificateLogEntry unmodified, so they
+#       are directly authenticated by the inclusion proof.
+# 
+#    *  serialNumber is omitted from TBSCertificateLogEntry, but its value
+#       determines the inclusion proof index, which authenticates it.
+# 
+#    *  The redundant signature field in TBSCertificate is omitted from
+#       TBSCertificateLogEntry, but Section 7.2 checks for an exact value,
+#       so no other values are possible.
+# 
+#    *  subjectPublicKeyInfo is hashed as subjectPublicKeyInfoHash in
+#       TBSCertificateLogEntry.  Provided the underlying hash function is
+#       collision-resistant, no other values are possible for a given log
+#       entry.
+# 
+#    X.509 implementations often implement Section 4.1.1.3 of [RFC5280] by
+#    equivalently retaining the original received DER encoding, rather
+#    than recomputing the canonical DER encoding TBSCertificate.  This
+#    optimization is compatible with the assumptions above.
+# 
+#    Some non-conforming X.509 implementations use a BER [X.690] parser
+#    instead of DER, and then apply this optimization to the received BER
+#    encoding.  BER encoding is not unique, so this does not produce the
+#    same result.  In such implementations, the BER-encoded TBSCertificate
+#    becomes also non-malleable, and applications may rely on this.  To
+#    preserve this property in Merkle Tree Certificates, such non-
+#    conforming implementations MUST do the following when implementing
+#    Section 7.2:
+# 
+#    *  Reparse the initial identifier (the SEQUENCE tag) and length
+#       octets of the TBSCertificate structure with a conforming DER
+#       parser and fail verification if invalid.
+# 
+#    *  When copying the version, issuer, validity, subject,
+#       issuerUniqueID, subjectUniqueID, and extensions fields, either
+#       copy over the observed BER encodings, or reparse each field with a
+#       conforming DER parser and fail verification if invalid.
+# 
+#    *  Reparse the serialNumber field with a conforming DER parser and
+#       fail verification if invalid.
+# 
+#    *  Reparse the signature field with a conforming DER parser and fail
+#       verification if invalid.  Equivalently, check for an exact
+#       equality with for the expected, DER-encoded value.
+# 
+#    *  When hashing subjectPublicKeyInfo, either hash the observed BER
+#       encoding, or reparse the structure with a conforming DER parser
+#       and fail verification if invalid.
+# 
+#    These additional checks are redundant in X.509 implementations that
+#    use a conforming DER parser.
+# 
+#    Section 5.3 requires that the TBSCertificateLogEntry in a
+#    MerkleTreeCertEntry be DER-encoded, so applying a stricter parser
+#    will be compatible with conforming CAs.  While these existing non-
+#    conforming implementations may be unable to switch to a DER parser
+#    due to compatibility concerns, Merkle Tree Certificates are new, so
+#    there is no existing deployment of malformed BER-encoded
+#    TBSCertificateLogEntry structures.
+# 
+#    The above only ensures the TBSCertificate portion is non-malleable.
+#    In Merkle Tree Certificates, similar to an ECDSA X.509 signature, the
+#    signature value is malleable.  Multiple MTCProof structures may prove
+#    a single TBSCertificate structure.  Additionally, in all X.509-based
+#    protocols, a BER-based parser for the outer, unsigned Certificate
+#    structure will admit malleability in those portions of the encoding.
+#    Applications that derive a unique identifier from the Certificate
+#    MUST instead use the TBSCertificate, or some portion of it, for
+#    Merkle Tree Certificates.
+
+[[spec]]
+level = "MUST"
+quote = '''
+To
+preserve this property in Merkle Tree Certificates, such non-
+conforming implementations MUST do the following when implementing
+Section 7.2:
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Applications that derive a unique identifier from the Certificate
+MUST instead use the TBSCertificate, or some portion of it, for
+Merkle Tree Certificates.
+'''
+

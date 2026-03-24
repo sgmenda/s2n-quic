@@ -1,0 +1,38 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-8"
+
+# Use in TLS
+#
+#    Most X.509 fields such as subjectPublicKeyInfo and X.509 extensions
+#    such as subjectAltName are unmodified in Merkle Tree certificates.
+#    They apply to TLS-based applications as in a traditional X.509
+#    certificate.  The primary new considerations for use in TLS are:
+# 
+#    *  Whether the authenticating party should send a certificate from
+#       one Merkle Tree CA, another Merkle Tree CA, or a traditional X.509
+#       CA
+# 
+#    *  Whether the authenticating party should send a standalone or
+#       landmark certificate
+# 
+#    *  What the relying party should communicate to the authenticating
+#       party to help it make this decision
+# 
+#    Certificate selection in TLS, described in Section 4.4.2.2 and
+#    Section 4.4.2.3 of [RFC8446], incorporates both explicit relying-
+#    party-provided information in the ClientHello and CertificateRequest
+#    messages and implicit deployment-specific assumptions.  This section
+#    describes a RECOMMENDED integration of Merkle Tree certificates into
+#    TLS trust anchor IDs ([I-D.ietf-tls-trust-anchor-ids]), but
+#    applications MAY use application-specific criteria in addition to, or
+#    instead of, this recommendation.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+This section
+describes a RECOMMENDED integration of Merkle Tree certificates into
+TLS trust anchor IDs ([I-D.ietf-tls-trust-anchor-ids]), but
+applications MAY use application-specific criteria in addition to, or
+instead of, this recommendation.
+'''
+

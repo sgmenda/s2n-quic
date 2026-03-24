@@ -1,0 +1,40 @@
+target = "static-ct-api.md#issuers"
+
+# Issuers
+#
+# The issuers are served at
+# 
+#     <monitoring prefix>/issuer/<fingerprint>
+# 
+# with `Content-Type: application/pkix-cert`.
+# 
+# `<fingerprint>` is the lowercase hex-encoded SHA-256 hash of the ASN.1 encoding
+# of the certificate, exactly matching what was submitted in an accepted client's
+# `add-chain` or `add-pre-chain` request.
+# 
+# This endpoint is immutable, so its caching headers SHOULD be long-lived.
+# 
+# The response MUST be a single ASN.1-encoded issuing certificate, hashing to the
+# fingerprint.
+# 
+# Every issuer referred to by a `TileLeaf` MUST be exposed at this endpoint.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+This endpoint is immutable, so its caching headers SHOULD be long-lived.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The response MUST be a single ASN.1-encoded issuing certificate, hashing to the
+fingerprint.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Every issuer referred to by a `TileLeaf` MUST be exposed at this endpoint.
+'''
+

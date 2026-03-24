@@ -1,0 +1,155 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-5.3"
+
+# Log Entries
+#
+#    Each entry in the log is a MerkleTreeCertEntry, defined with the TLS
+#    presentation syntax below.  A MerkleTreeCertEntry describes
+#    certificate information that the CA has validated and certified.
+# 
+#    struct {} Empty;
+# 
+#    enum {
+#        null_entry(0), tbs_cert_entry(1), (2^16-1)
+#    } MerkleTreeCertEntryType;
+# 
+#    struct {
+#        MerkleTreeCertEntryType type;
+#        select (type) {
+#           case null_entry: Empty;
+#           case tbs_cert_entry: opaque tbs_cert_entry_data[N];
+#           /* May be extended with future types. */
+#        }
+#    } MerkleTreeCertEntry;
+# 
+#    When type is null_entry, the entry does not represent any
+#    information.  The entry at index zero of every issuance log MUST be
+#    of type null_entry.  Other entries MUST NOT use null_entry.
+#    null_entry exists to avoid zero serial numbers in the certificate
+#    format (Section 6.1).
+# 
+#    When type is tbs_cert_entry, N is the number of bytes needed to
+#    consume the rest of the input.  A MerkleTreeCertEntry is expected to
+#    be decoded in contexts where the total length of the entry is known.
+# 
+#    tbs_cert_entry_data contains the contents octets (i.e. excluding the
+#    initial identifier and length octets) of the DER [X.690] encoding of
+#    a TBSCertificateLogEntry, defined below.  Equivalently,
+#    tbs_cert_entry_data contains the DER encodings of each field of the
+#    TBSCertificateLogEntry, concatenated.  This construction allows a
+#    single-pass implementation in Section 7.2.
+# 
+#    TBSCertificateLogEntry ::= SEQUENCE {
+#        version               [0] EXPLICIT Version DEFAULT v1,
+#        issuer                    Name,
+#        validity                  Validity,
+#        subject                   Name,
+#        subjectPublicKeyAlgorithm AlgorithmIdentifier{PUBLIC-KEY,
+#                                      {PublicKeyAlgorithms}},
+#        subjectPublicKeyInfoHash  OCTET STRING,
+#        issuerUniqueID        [1] IMPLICIT UniqueIdentifier OPTIONAL,
+#        subjectUniqueID       [2] IMPLICIT UniqueIdentifier OPTIONAL,
+#        extensions            [3] EXPLICIT Extensions{{CertExtensions}}
+#                                               OPTIONAL
+#    }
+# 
+#    The fields of a TBSCertificateLogEntry are defined as follows:
+# 
+#    *  version, issuer, validity, subject, issuerUniqueID,
+#       subjectUniqueID, and extensions have the same semantics as the
+#       corresponding TBSCertificate fields, defined in Section 4.1.2 of
+#       [RFC5280].
+# 
+#    *  subjectPublicKeyAlgorithm describes the algorithm of the subject's
+#       public key.  It is constructed identically to the algorithm field
+#       of a SubjectPublicKeyInfo (Section 4.1.2.7 of [RFC5280]).
+# 
+#    *  subjectPublicKeyInfoHash contains the hash of subject's public
+#       key, encoded as a SubjectPublicKeyInfo.  The hash uses the log's
+#       hash function (Section 5.1) and is computed over the
+#       SubjectPublicKeyInfo's DER [X.690] encoding.  The issuer field
+#       MUST be the issuance log's log ID as a PKIX distinguished name, as
+#       described in Section 5.2.
+# 
+#    Note the subject's public key algorithm is incorporated into both
+#    subjectPublicKeyAlgorithm and subjectPublicKeyInfoHash.
+# 
+#    MerkleTreeCertEntry is an extensible structure.  Future documents may
+#    define new values for MerkleTreeCertEntryType, with corresponding
+#    semantics.  See Section 5.5 and Section 12.5 for additional
+#    discussion.
+
+[[spec]]
+level = "MUST"
+quote = '''
+The entry at index zero of every issuance log MUST be
+of type null_entry.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Other entries MUST NOT use null_entry.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+TBSCertificateLogEntry ::= SEQUENCE {
+version               [0] EXPLICIT Version DEFAULT v1,
+issuer                    Name,
+validity                  Validity,
+subject                   Name,
+subjectPublicKeyAlgorithm AlgorithmIdentifier{PUBLIC-KEY,
+{PublicKeyAlgorithms}},
+subjectPublicKeyInfoHash  OCTET STRING,
+issuerUniqueID        [1] IMPLICIT UniqueIdentifier OPTIONAL,
+subjectUniqueID       [2] IMPLICIT UniqueIdentifier OPTIONAL,
+extensions            [3] EXPLICIT Extensions{{CertExtensions}}
+OPTIONAL
+}
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+TBSCertificateLogEntry ::= SEQUENCE {
+version               [0] EXPLICIT Version DEFAULT v1,
+issuer                    Name,
+validity                  Validity,
+subject                   Name,
+subjectPublicKeyAlgorithm AlgorithmIdentifier{PUBLIC-KEY,
+{PublicKeyAlgorithms}},
+subjectPublicKeyInfoHash  OCTET STRING,
+issuerUniqueID        [1] IMPLICIT UniqueIdentifier OPTIONAL,
+subjectUniqueID       [2] IMPLICIT UniqueIdentifier OPTIONAL,
+extensions            [3] EXPLICIT Extensions{{CertExtensions}}
+OPTIONAL
+}
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+TBSCertificateLogEntry ::= SEQUENCE {
+version               [0] EXPLICIT Version DEFAULT v1,
+issuer                    Name,
+validity                  Validity,
+subject                   Name,
+subjectPublicKeyAlgorithm AlgorithmIdentifier{PUBLIC-KEY,
+{PublicKeyAlgorithms}},
+subjectPublicKeyInfoHash  OCTET STRING,
+issuerUniqueID        [1] IMPLICIT UniqueIdentifier OPTIONAL,
+subjectUniqueID       [2] IMPLICIT UniqueIdentifier OPTIONAL,
+extensions            [3] EXPLICIT Extensions{{CertExtensions}}
+OPTIONAL
+}
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The issuer field
+MUST be the issuance log's log ID as a PKIX distinguished name, as
+described in Section 5.2.
+'''
+

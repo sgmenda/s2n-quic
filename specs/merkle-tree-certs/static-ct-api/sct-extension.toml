@@ -1,0 +1,108 @@
+target = "static-ct-api.md#sct-extension"
+
+# SCT Extension
+#
+# RFC 6962 specifies no extensions, and current logs produce empty extensions
+# fields. This document defines a format for the `CtExtensions` type, and one
+# REQUIRED `SignedCertificateTimestamp` extension for Static API logs.
+# 
+# According to RFC 6962, submitters SHALL encode the `extensions` field of
+# `add-[pre-]chain` responses into serialized `SignedCertificateTimestamp`s and
+# TLS clients SHALL include that field in the digitally signed message being
+# verified.
+# 
+# 	enum {
+# 		leaf_index(0), (255)
+# 	} ExtensionType;
+# 	
+# 	struct {
+# 		ExtensionType extension_type;
+# 		opaque extension_data<0..2^16-1>;
+# 	} Extension;
+# 	
+# 	Extension CtExtensions<0..2^16-1>;
+# 
+# The `CtExtensions` type (opaque in RFC 6962) MUST be a list of zero or more
+# `Extension`s, similarly to [RFC 5246][], but with a one-byte `ExtensionType`.
+# The order of extensions in an extensions field is arbitrary and MUST be ignored.
+# Duplicate extensions with the same `ExtensionType` MUST NOT be included in the
+# same extensions field.
+# 
+# 	uint8 uint40[5];
+# 	uint40 LeafIndex;
+# 
+# Static API logs MUST include a `leaf_index` extension in the `extensions` field of
+# `SignedCertificateTimestamp`. The `extension_data` field of this extension MUST
+# be a `LeafIndex` value, which is a big-endian unsigned 40-bit integer specifying
+# the 0-based index of the included entry in the log.
+# 
+# The total length of an `extensions` field containing only a `leaf_index`
+# extension is 8 bytes.
+# 
+# Note that by design this encourages a null Merge Delay, since
+# entries must be sequenced before an SCT is returned, for this extension
+# to be included.
+# 
+# This extension makes it possible for auditors to verify inclusion of an SCT in
+# the log by fetching the entry by index, rather than by hash.
+
+[[spec]]
+level = "MUST"
+quote = '''
+This document defines a format for the `CtExtensions` type, and one
+REQUIRED `SignedCertificateTimestamp` extension for Static API logs.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+According to RFC 6962, submitters SHALL encode the `extensions` field of
+`add-[pre-]chain` responses into serialized `SignedCertificateTimestamp`s and
+TLS clients SHALL include that field in the digitally signed message being
+verified.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+According to RFC 6962, submitters SHALL encode the `extensions` field of
+`add-[pre-]chain` responses into serialized `SignedCertificateTimestamp`s and
+TLS clients SHALL include that field in the digitally signed message being
+verified.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The `CtExtensions` type (opaque in RFC 6962) MUST be a list of zero or more
+`Extension`s, similarly to [RFC 5246][], but with a one-byte `ExtensionType`.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The order of extensions in an extensions field is arbitrary and MUST be ignored.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Duplicate extensions with the same `ExtensionType` MUST NOT be included in the
+same extensions field.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Static API logs MUST include a `leaf_index` extension in the `extensions` field of
+`SignedCertificateTimestamp`.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The `extension_data` field of this extension MUST
+be a `LeafIndex` value, which is a big-endian unsigned 40-bit integer specifying
+the 0-based index of the included entry in the log.
+'''
+

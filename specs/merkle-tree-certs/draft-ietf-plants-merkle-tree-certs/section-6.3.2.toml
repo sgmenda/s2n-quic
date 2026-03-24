@@ -1,0 +1,30 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-6.3.2"
+
+# Allocating Landmarks
+#
+#    It is RECOMMENDED that landmarks be allocated using the following
+#    procedure:
+# 
+#    1.  Select some time_between_landmarks duration.  Define a series of
+#        consecutive, non-overlapping time intervals, each of duration
+#        time_between_landmarks.
+# 
+#    2.  At most once per time interval, append the latest checkpoint tree
+#        size to the landmark sequence if it is greater than the last
+#        landmark's tree size.
+# 
+#    To ensure that only active landmarks contain unexpired certificates,
+#    set max_active_landmarks to ceil(max_cert_lifetime /
+#    time_between_landmarks) + 1, where max_cert_lifetime is the CA's
+#    maximum certificate lifetime.  The + 1 accounts for landmarks not
+#    allocated at the exact start of their time interval, which can push
+#    certificate expiry one interval further than ceil(max_cert_lifetime /
+#    time_between_landmarks) alone would bound.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+It is RECOMMENDED that landmarks be allocated using the following
+procedure:
+'''
+

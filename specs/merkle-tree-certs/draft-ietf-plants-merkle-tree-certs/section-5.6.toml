@@ -1,0 +1,55 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-5.6"
+
+# Publishing Logs
+#
+#    _[[NOTE: This section is written to avoid depending on a specific
+#    serving protocol.  The current expectation is that a Web PKI
+#    deployment would derive from [TLOG-TILES], to match the direction of
+#    Certificate Transparency and pick up improvements made there._
+# 
+#    _For now, we avoid a normative reference to [TLOG-TILES] and also
+#    capture the fact that the certificate construction is independent of
+#    the choice of protocol.  Similar to how the CT ecosystem is migrating
+#    to a tiled interface, were someone to improve on [TLOG-TILES], a PKI
+#    could migrate to that new protocol without impacting certificate
+#    verification._
+# 
+#    _This is purely a starting point for describing the design.  We
+#    expect the scope of this document, and other related documents to
+#    adapt as the work evolves across the IETF, C2SP, Certificate
+#    Transparency, and other communities.]]_
+# 
+#    Issuance logs are intended to be publicly accessible to allow
+#    monitors to detect misissued certificates.
+# 
+#    The access method does not affect certificate interoperability, so
+#    this document does not prescribe a specific protocol.  An individual
+#    issuance log MAY be published in any form, provided other parties in
+#    the PKI are able to consume it.  Relying parties SHOULD define log
+#    serving requirements, including the allowed protocols and expected
+#    availability, as part of their policies on which CAs to support.  See
+#    also Section 10.3.
+# 
+#    For example, a log ecosystem could use [TLOG-TILES] to serve logs.
+#    [TLOG-TILES] improves on [RFC6962] and [RFC9162] by exposing the log
+#    as a collection of cacheable, immutable "tiles".  This works well
+#    with a variety of common HTTP [RFC9110] serving architectures.  It
+#    also allows log clients to request arbitrary tree nodes, so log
+#    clients can fetch the structures described in Section 4.
+
+[[spec]]
+level = "MAY"
+quote = '''
+An individual
+issuance log MAY be published in any form, provided other parties in
+the PKI are able to consume it.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Relying parties SHOULD define log
+serving requirements, including the allowed protocols and expected
+availability, as part of their policies on which CAs to support.
+'''
+

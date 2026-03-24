@@ -1,0 +1,82 @@
+target = "draft-ietf-tls-trust-anchor-ids.txt#section-6"
+
+# Certificate Properties
+#
+#    As described in Section 3.2, certification paths participating in
+#    this mechanism must be configured with a trust anchor ID.  This
+#    section introduces a RECOMMENDED extensible CertificatePropertyList
+#    structure for representing this and other additional properties of a
+#    certification path.  CertificatePropertyLists may be used as part of
+#    authenticating party configuration, and for CAs to communicate
+#    additional properties during certificate issuance.
+# 
+#    The extensibility aims to simplify application deployment as PKI
+#    mechanisms evolve.  When certificate issuance and application
+#    software is updated to pass this structure to the underlying TLS
+#    implementation, new properties may be transparently defined without
+#    changes to certificate and configuration management.
+# 
+#    A CertificatePropertyList is defined using the TLS presentation
+#    language (Section 3 of [RFC8446]) below:
+# 
+#    enum { trust_anchor_id(0), (2^16-1) } CertificatePropertyType;
+# 
+#    struct {
+#        CertificatePropertyType type;
+#        opaque data<0..2^16-1>;
+#    } CertificateProperty;
+# 
+#    CertificateProperty CertificatePropertyList<0..2^16-1>;
+# 
+#    The entries in a CertificatePropertyList MUST be sorted numerically
+#    by type and MUST NOT contain values with a duplicate type.  Inputs
+#    that do not satisfy these invariants are syntax errors and MUST be
+#    rejected by parsers.
+# 
+#    This document defines a single property, trust_anchor_id.  The data
+#    field of the property contains the binary representation of the trust
+#    anchor ID of the certification path's trust anchor, as described in
+#    Section 3.2.  Future documents may define other properties for use
+#    with other mechanisms.
+# 
+#    Authenticating parties MUST ignore properties with unrecognized
+#    CertificatePropertyType values.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+This
+section introduces a RECOMMENDED extensible CertificatePropertyList
+structure for representing this and other additional properties of a
+certification path.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The entries in a CertificatePropertyList MUST be sorted numerically
+by type and MUST NOT contain values with a duplicate type.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The entries in a CertificatePropertyList MUST be sorted numerically
+by type and MUST NOT contain values with a duplicate type.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Inputs
+that do not satisfy these invariants are syntax errors and MUST be
+rejected by parsers.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Authenticating parties MUST ignore properties with unrecognized
+CertificatePropertyType values.
+'''
+

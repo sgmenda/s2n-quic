@@ -1,0 +1,24 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-6.3"
+
+# Landmark Certificates
+#
+#    A _landmark certificate_ is a Merkle Tree certificate which contains
+#    no signatures and instead assumes the relying party had
+#    predistributed information about which subtrees were trusted.
+#    Landmark certificates are an optional size optimization.  They
+#    require a processing delay to construct, and only work in a
+#    sufficiently up-to-date relying party.  Authenticating parties thus
+#    SHOULD deploy a corresponding standalone certificate alongside any
+#    landmark certificate, and use some application-protocol-specific
+#    mechanism to select between the two.  Section 8 discusses such a
+#    mechanism for TLS [RFC8446].
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Authenticating parties thus
+SHOULD deploy a corresponding standalone certificate alongside any
+landmark certificate, and use some application-protocol-specific
+mechanism to select between the two.
+'''
+

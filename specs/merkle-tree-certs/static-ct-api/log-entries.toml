@@ -1,0 +1,78 @@
+target = "static-ct-api.md#log-entries"
+
+# Log entries
+#
+# The log entries are served as a “data tile” at
+# 
+#     <monitoring prefix>/tile/data/<N>[.p/<W>]
+# 
+# with `Content-Type: application/octet-stream`.
+# 
+# Data tiles SHOULD be compressed at the HTTP layer.
+# Clients MUST support `Content-Encoding: gzip` and logs MAY use it with no negotiation.
+# Clients SHOULD include `gzip` and `identity` in their `Accept-Encoding` headers.
+# 
+# This endpoint is immutable, so its caching headers SHOULD be long-lived.
+# 
+# The entries in a data tile match the entries in the corresponding “level 0”
+# tile. Data tiles are sequences of the following structure, one per entry.
+# 
+# ```
+# struct {
+# 	TimestampedEntry timestamped_entry;
+# 	select (entry_type) {
+# 		case x509_entry: Empty;
+# 		case precert_entry: ASN.1Cert pre_certificate;
+# 	};
+# 	Fingerprint certificate_chain<0..2^16-1>;
+# } TileLeaf;
+# 
+# opaque Fingerprint[32];
+# ```
+# 
+# “timestamped_entry” is the `TimestampedEntry` sub-structure of a
+# `MerkleTreeLeaf` according to RFC 6962, Section 3.4.
+# 
+# “pre_certificate” is the Precertificate submitted for auditing, corresponding
+# to the `pre_certificate` specified in RFC 6962, Section 3.1. It is not the same
+# as `timestamped_entry.signed_entry`, which is a PreCert containing a TBSCertificate.
+# 
+# “certificate_chain” are the SHA-256 hashes of the ASN.1 encoding of the issuers
+# in the submitted chain, corresponding to the `certificate_chain` or
+# `precertificate_chain` specified in RFC 6962, Section 3.1.
+# 
+# > [!TIP]
+# > Some Static CT logs implement [an optional
+# > extension](https://github.com/FiloSottile/sunlight/blob/main/names-tiles.md)
+# > that exposes the names on the certificates as compact, unauthenticated JSON
+# > lines files.
+# >
+# > This extension is **not** suitable for security-minded clients that verify
+# > inclusion in signed tree heads, and should not be replicated by other
+# > transparency systems. It is meant to reduce the bandwidth burden from clients
+# > that are only interested in Certificate Transparency as a source of names.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Data tiles SHOULD be compressed at the HTTP layer.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Clients MUST support `Content-Encoding: gzip` and logs MAY use it with no negotiation.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Clients SHOULD include `gzip` and `identity` in their `Accept-Encoding` headers.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+This endpoint is immutable, so its caching headers SHOULD be long-lived.
+'''
+

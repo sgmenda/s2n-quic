@@ -1,0 +1,70 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-7.5"
+
+# Revocation by Index
+#
+#    For each supported Merkle Tree CA, the relying party maintains a list
+#    of revoked ranges of indices.  This allows a relying party to
+#    efficiently revoke entries of an issuance log, even if the contents
+#    are not necessarily known.  This may be used to mitigate the security
+#    consequences of misbehavior by a CA, or other parties in the
+#    ecosystem.
+# 
+#    When a relying party is first configured to trust a CA, it SHOULD be
+#    configured to revoke all entries from zero up to but not including
+#    the first available unexpired certificate at the time.  This
+#    revocation SHOULD be periodically updated as entries expire and logs
+#    are pruned (Section 5.6.1).  In particular, when CAs prune entries,
+#    relying parties SHOULD be updated to revoke all newly unavailable
+#    entries.  This gives assurance that, even if some unavailable entry
+#    had not yet expired, the relying party will not trust it.  It also
+#    allows monitors to start monitoring a log without processing expired
+#    entries.
+# 
+#    A misbehaving CA might correctly construct a globally consistent log,
+#    but refuse to make some entries or intermediate nodes available.
+#    Consistency proofs between checkpoints and subtrees would pass, but
+#    monitors cannot observe the entries themselves.  Relying parties
+#    whose cosigner policies (Section 7.3) do not require durable logging
+#    (e.g. via [TLOG-MIRROR]) are particularly vulnerable to this.  In
+#    this case, the indices of the missing entries will still be known, so
+#    relying parties can use this mechanism to revoke the unknown entries,
+#    possibly as an initial, targeted mitigation before complete CA
+#    removal.
+# 
+#    When a CA is found to be untrustworthy, relying parties SHOULD remove
+#    trust in that CA.  To minimize the compatibility impact of this
+#    mitigation, index-based revocation can be used to only distrust
+#    entries after some index, while leaving existing entries accepted.
+#    This is analogous to the [SCTNotAfter] mechanism used in some PKIs.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+When a relying party is first configured to trust a CA, it SHOULD be
+configured to revoke all entries from zero up to but not including
+the first available unexpired certificate at the time.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+This
+revocation SHOULD be periodically updated as entries expire and logs
+are pruned (Section 5.6.1).
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+In particular, when CAs prune entries,
+relying parties SHOULD be updated to revoke all newly unavailable
+entries.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+When a CA is found to be untrustworthy, relying parties SHOULD remove
+trust in that CA.
+'''
+

@@ -1,0 +1,169 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#appendix-C.2"
+
+# Requesting Subtree Signatures
+#
+#    This section defines the sign-subtree cosigner HTTP endpoint for
+#    clients to obtain subtree signatures from non-CA cosigners, such as
+#    mirrors and witnesses.  It may be used by the CA when assembling a
+#    certificate, or by an authenticating party to add a cosignature to a
+#    certificate that the CA did not themselves obtain.
+# 
+#    The cosigner MAY expose this endpoint publicly to general
+#    authenticating parties, or privately to the CA.  The latter is
+#    sufficient if the CA is known to automatically request cosignatures
+#    from this cosigner when constructing certificates.  If private,
+#    authenticating the CA is out of scope for this document.
+# 
+#    Clients call this endpoint as POST <prefix>/sign-subtree, where
+#    prefix is some URL prefix.  For a mirror or witness, the URL prefix
+#    is the submission prefix.  The client's request body MUST be a
+#    sequence of:
+# 
+#    *  The requested subtree as a signed note (Appendix C.1), with zero
+#       or more signatures.  The endpoint MAY require signatures from the
+#       CA as a DoS mitigation, as described below.
+# 
+#    *  A blank line
+# 
+#    *  A checkpoint, signed by the requested cosigner.  The checkpoint's
+#       tree size must be at least end.
+# 
+#    *  A blank line
+# 
+#    *  Zero or more subtree consistency proof (Section 4.4) lines.  Each
+#       line MUST encode a single hash in base64 [RFC4648].  The client
+#       MUST NOT send more than 63 consistency proof lines.
+# 
+#    Each line MUST terminate in a newline character (U+000A).
+# 
+#    The cosigner performs the following steps:
+# 
+#    1.  Check that the checkpoint contains signatures from itself
+# 
+#    2.  Check that the subtree consistency proof proves consistency
+#        between the subtree hash and the checkpoint
+# 
+#    3.  If all checks pass, cosign the subtree, as described in
+#        Section 5.4
+# 
+#    On success, the response body MUST be a sequence of one or more note
+#    signature lines [SIGNED-NOTE], each starting with an em dash
+#    character (U+2014) and ending with a newline character (U+000A).  The
+#    signatures MUST be cosignatures from the cosigner key(s) on the
+#    subtree.
+# 
+#    Instead of statelessly validating checkpoints by signature, the
+#    cosigner MAY statefully check the requested checkpoint against
+#    internal witness or mirror state.  In this case, if the cosigner
+#    needs a newer checkpoint, it responds with a "409 Conflict" with its
+#    latest signed checkpoint.  In this case, the subtree cosigning SHOULD
+#    remember and accept the last few signed checkpoints, to minimize
+#    conflicts.
+# 
+#    If operating statefully, the subtree cosigner process only needs read
+#    access to the mirror or witness state and can freely operate on stale
+#    state without violating any invariants.
+# 
+#    Mirrors MAY choose to check subtree hashes by querying their log
+#    state, instead of evaluating proofs.
+# 
+#    Publicly-exposed subtree cosigning endpoints MAY mitigate DoS in a
+#    variety of techniques:
+# 
+#    *  Only cosigning recent subtrees, as old subtrees do not need to be
+#       co-signed
+# 
+#    *  Caching subtree signatures
+# 
+#    *  Requiring a CA signature on the subtree; CAs are only expected to
+#       sign two subtrees (Section 4.5) for each checkpoint
+# 
+#    *  Rate-limiting requests
+
+[[spec]]
+level = "MAY"
+quote = '''
+The cosigner MAY expose this endpoint publicly to general
+authenticating parties, or privately to the CA.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The client's request body MUST be a
+sequence of:
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+The endpoint MAY require signatures from the
+CA as a DoS mitigation, as described below.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Each
+line MUST encode a single hash in base64 [RFC4648].
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The client
+MUST NOT send more than 63 consistency proof lines.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Each line MUST terminate in a newline character (U+000A).
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+On success, the response body MUST be a sequence of one or more note
+signature lines [SIGNED-NOTE], each starting with an em dash
+character (U+2014) and ending with a newline character (U+000A).
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The
+signatures MUST be cosignatures from the cosigner key(s) on the
+subtree.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Instead of statelessly validating checkpoints by signature, the
+cosigner MAY statefully check the requested checkpoint against
+internal witness or mirror state.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+In this case, the subtree cosigning SHOULD
+remember and accept the last few signed checkpoints, to minimize
+conflicts.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Mirrors MAY choose to check subtree hashes by querying their log
+state, instead of evaluating proofs.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Publicly-exposed subtree cosigning endpoints MAY mitigate DoS in a
+variety of techniques:
+'''
+

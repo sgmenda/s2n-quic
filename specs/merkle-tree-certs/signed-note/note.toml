@@ -1,0 +1,27 @@
+target = "signed-note.md#note"
+
+# Note
+#
+# A note is text signed by one or more keys.
+# 
+# The text MUST be ignored unless the note is signed by a trusted key and the
+# signature has been verified. This makes notes well-suited for artifacts that are
+# only exposed to technical operators, and not for user-facing purposes (such as
+# email).
+# 
+# ```
+# Ognuno sta solo sul cuor della terra
+# trafitto da un raggio di sole:
+# 
+# ed è subito sera.
+# 
+# — quasimodo.example/salvatore NnugSzTjtVAewIS+Z/iJhUPeFDkO/5QQ2i5ddnGITLlC+EhfLW9oJKONrMouFSQU0xMcXxj99ihAQwaqP3ZekRwNtIc=
+# ```
+
+[[spec]]
+level = "MUST"
+quote = '''
+The text MUST be ignored unless the note is signed by a trusted key and the
+signature has been verified.
+'''
+

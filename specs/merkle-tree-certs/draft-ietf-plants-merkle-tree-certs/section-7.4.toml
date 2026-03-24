@@ -1,0 +1,94 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-7.4"
+
+# Trusted Subtrees
+#
+#    As an optional optimization, a relying party MAY incorporate a
+#    periodically updated, predistributed list of active landmark
+#    subtrees, determined as described in Section 6.3.1.  The relying
+#    party configures these as trusted subtrees, allowing it to accept
+#    landmark certificates (Section 6.3) constructed against those
+#    subtrees.
+# 
+#    Before configuring the subtrees as trusted, the relying party MUST
+#    obtain assurance that each subtree is consistent with checkpoints
+#    observed by a sufficient set of cosigners (see Section 5.4) to meet
+#    its cosigner requirements.  It is not necessary that the cosigners
+#    have generated signatures over the specific subtrees, only that they
+#    are consistent.
+# 
+#    This criteria can be checked given:
+# 
+#    *  Some _reference checkpoint_ that contains the latest landmark
+# 
+#    *  For each cosigner, either:
+# 
+#       -  A cosignature on the reference checkpoint
+# 
+#       -  A cosigned checkpoint containing the referenced checkpoint and
+#          a valid Merkle consistency proof (Section 2.1.4 of [RFC9162])
+#          between the two
+# 
+#    *  For each subtree, a valid subtree consistency proof (Section 4.4)
+#       between the subtree and the reference checkpoint
+# 
+#    [[TODO: The subtree consistency proofs have many nodes in common.  It
+#    is possible to define a single "bulk consistency proof" that verifies
+#    all the hashes at once, but it's a lot more complex.]]
+# 
+#    This document does not prescribe how relying parties obtain this
+#    information.  A relying party MAY, for example, use an application-
+#    specific update service, such as the services described in [CHROMIUM]
+#    and [FIREFOX].  If the relying party considers the service
+#    sufficiently trusted (e.g. if the service provides the trust anchor
+#    list or certificate validation software), it MAY trust the update
+#    service to perform these checks.
+# 
+#    The relying party SHOULD incorporate its trusted subtree
+#    configuration in application-protocol-specific certificate selection
+#    mechanisms, to allow an authenticating party to select a landmark
+#    certificate.  The trust anchor IDs of the landmarks may be used as
+#    efficient identifiers in the application protocol.  Section 8
+#    discusses how to do this in TLS [RFC8446].
+
+[[spec]]
+level = "MAY"
+quote = '''
+As an optional optimization, a relying party MAY incorporate a
+periodically updated, predistributed list of active landmark
+subtrees, determined as described in Section 6.3.1.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Before configuring the subtrees as trusted, the relying party MUST
+obtain assurance that each subtree is consistent with checkpoints
+observed by a sufficient set of cosigners (see Section 5.4) to meet
+its cosigner requirements.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+A relying party MAY, for example, use an application-
+specific update service, such as the services described in [CHROMIUM]
+and [FIREFOX].
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+if the service provides the trust anchor
+list or certificate validation software), it MAY trust the update
+service to perform these checks.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+The relying party SHOULD incorporate its trusted subtree
+configuration in application-protocol-specific certificate selection
+mechanisms, to allow an authenticating party to select a landmark
+certificate.
+'''
+

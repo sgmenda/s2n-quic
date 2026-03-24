@@ -1,0 +1,57 @@
+target = "draft-ietf-tls-trust-anchor-ids.txt#section-6.2"
+
+# ACME Extension
+#
+#    The format defined in Section 6.1 can be used with ACME's alternate
+#    format mechanism (see Section 7.4.2 of [RFC8555]) as follows.  When
+#    downloading certificates, a supporting client SHOULD include
+#    "application/pem-certificate-chain-with-properties" in its HTTP
+#    Accept header (Section 12.5.1 of [RFC9110]).  When a supporting
+#    server sees such a header, it MAY then respond with that format to
+#    include a CertificatePropertyList with the certification path.  This
+#    CertificatePropertyList MAY include a trust_anchor_id property for
+#    use with this protocol, or other properties defined in another
+#    document.
+# 
+#    When used with ACME's alternate certificate chain mechanism (see
+#    Section 7.4.2 of [RFC8555]), this protocol removes the need for
+#    heuristics in determining which path to serve to which relying party.
+# 
+#    The authenticating party MAY combine the resulting certification
+#    paths with those from other ACME orders, or other sources, for a
+#    complete set of candidate paths to serve.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+When
+downloading certificates, a supporting client SHOULD include
+"application/pem-certificate-chain-with-properties" in its HTTP
+Accept header (Section 12.5.1 of [RFC9110]).
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+When a supporting
+server sees such a header, it MAY then respond with that format to
+include a CertificatePropertyList with the certification path.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+This
+CertificatePropertyList MAY include a trust_anchor_id property for
+use with this protocol, or other properties defined in another
+document.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+The authenticating party MAY combine the resulting certification
+paths with those from other ACME orders, or other sources, for a
+complete set of candidate paths to serve.
+'''
+

@@ -1,0 +1,26 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-5.1"
+
+# Log Parameters
+#
+#    An issuance log has the following parameters:
+# 
+#    *  A log ID, which uniquely identifies the log.  See Section 5.2.
+# 
+#    *  A collision-resistant cryptographic hash function.  SHA-256 [SHS]
+#       is RECOMMENDED.
+# 
+#    *  A minimum index, which is the index of the first log entry which
+#       is available.  See Section 5.6.1.  This value changes over the
+#       lifetime of the log.
+# 
+#    Throughout this document, the hash algorithm in use is referred to as
+#    HASH, and the size of its output in bytes is referred to as
+#    HASH_SIZE.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+SHA-256 [SHS]
+is RECOMMENDED.
+'''
+

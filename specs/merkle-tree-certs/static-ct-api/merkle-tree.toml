@@ -1,0 +1,76 @@
+target = "static-ct-api.md#merkle-tree"
+
+# Merkle Tree
+#
+# Instead of serving arbitrary consistency and inclusion proofs, Static API logs
+# serve the Merkle Tree as a set of “tiles”: concatenated sequences of consecutive
+# Merkle Tree Hashes at a certain tree height. Clients can fetch all the tiles
+# they need in parallel and compute arbitrary proofs.
+# 
+# Tiles are served as at
+# 
+#     <monitoring prefix>/tile/<L>/<N>[.p/<W>]
+# 
+# with `Content-Type: application/octet-stream`.
+# 
+# `<L>` is the “level” of the tile, and MUST be a decimal ASCII integer between 0
+# and 5, with no additional leading zeroes.
+# 
+# `<N>` is the index of the tile within the level. It MUST be a non-negative
+# integer encoded into 3-digit path elements. All but the last path element MUST
+# begin with an `x`. For example, index 1234067 will be encoded as
+# `x001/x234/067`.
+# 
+# The `.p/<W>` suffix is only present for partial tiles, defined below. `<W>` is
+# the width of the tile, a decimal ASCII integer between 1 and 255, with no
+# additional leading zeroes.
+# 
+# This endpoint is immutable, so its caching headers SHOULD be long-lived.
+# 
+# Full tiles MUST be exactly 256 hashes wide, or 8,192 bytes.  At “level 0” tiles
+# contain leaf hashes. At “level 1” and above, each hash in a tile is the Merkle
+# Tree Hash of a full tile at the level below.
+# 
+# More formally, in the language of RFC 6962, Section 2.1, the *n*-th tile at
+# level *l*, with *n* and *l* starting at 0, is the sequence of the following
+# Merkle Tree Hashes, with *i* from 0 to 255:
+# 
+# 	MTH(D[(n * 256 + i) * 256**l : (n * 256 + i + 1) * 256**l])
+# 
+# Note that a tile represents the entire subtree of height 8 with its hashes as
+# the leaves. The Merkle Tree levels between those expressed by the tile hashes
+# can be reconstructed by hashing the leaves.
+
+[[spec]]
+level = "MUST"
+quote = '''
+`<L>` is the “level” of the tile, and MUST be a decimal ASCII integer between 0
+and 5, with no additional leading zeroes.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+It MUST be a non-negative
+integer encoded into 3-digit path elements.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+All but the last path element MUST
+begin with an `x`.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+This endpoint is immutable, so its caching headers SHOULD be long-lived.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Full tiles MUST be exactly 256 hashes wide, or 8,192 bytes.
+'''
+

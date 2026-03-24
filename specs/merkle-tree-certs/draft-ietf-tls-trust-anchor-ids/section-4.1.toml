@@ -1,0 +1,59 @@
+target = "draft-ietf-tls-trust-anchor-ids.txt#section-4.1"
+
+# Overview
+#
+#    The trust_anchors extension is defined using the structures below:
+# 
+#    enum { trust_anchors(TBD), (2^16-1) } ExtensionType;
+# 
+#    opaque TrustAnchorID<1..2^8-1>;
+# 
+#    TrustAnchorID TrustAnchorIDList<0..2^16-1>;
+# 
+#    When the extension is sent in the ClientHello or CertificateRequest
+#    messages, the extension_data is a TrustAnchorIDList and indicates
+#    that the sender supports the specified trust anchors.  The list is
+#    unordered, and MAY be empty.  Each TrustAnchorID uses the binary
+#    representation, as described in Section 3.
+# 
+#    When the extension is sent in EncryptedExtensions, the extension_data
+#    is a TrustAnchorIDList containing the list of trust anchors that
+#    server has available, in the server's preference order, and MUST NOT
+#    be empty.
+# 
+#    When the extension is sent in Certificate, the extension_data MUST be
+#    empty and indicates that the sender sent the certificate because the
+#    certificate matched a trust anchor ID sent by the peer.  When used in
+#    this form, the extension may only be sent in the first
+#    CertificateEntry.  It MUST NOT be sent in subsequent ones.
+
+[[spec]]
+level = "MAY"
+quote = '''
+The list is
+unordered, and MAY be empty.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+When the extension is sent in EncryptedExtensions, the extension_data
+is a TrustAnchorIDList containing the list of trust anchors that
+server has available, in the server's preference order, and MUST NOT
+be empty.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+When the extension is sent in Certificate, the extension_data MUST be
+empty and indicates that the sender sent the certificate because the
+certificate matched a trust anchor ID sent by the peer.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+It MUST NOT be sent in subsequent ones.
+'''
+

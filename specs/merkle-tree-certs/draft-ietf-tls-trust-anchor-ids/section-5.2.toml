@@ -1,0 +1,44 @@
+target = "draft-ietf-tls-trust-anchor-ids.txt#section-5.2"
+
+# Configuring Services
+#
+#    Services SHOULD include the trust anchor ID for each of their
+#    available certification paths, in preference order, in the tls-trust-
+#    anchors of their HTTPS or SVCB endpoints.  As TLS configuration is
+#    updated, services SHOULD update the DNS record to match.  The
+#    mechanism for this is out of scope for this document, but services
+#    are RECOMMENDED to automate this process.
+# 
+#    Services MAY have certification paths without trust anchor IDs, but
+#    those paths will not participate in this mechanism.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Services SHOULD include the trust anchor ID for each of their
+available certification paths, in preference order, in the tls-trust-
+anchors of their HTTPS or SVCB endpoints.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+As TLS configuration is
+updated, services SHOULD update the DNS record to match.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+The
+mechanism for this is out of scope for this document, but services
+are RECOMMENDED to automate this process.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Services MAY have certification paths without trust anchor IDs, but
+those paths will not participate in this mechanism.
+'''
+

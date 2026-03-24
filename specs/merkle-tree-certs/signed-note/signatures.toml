@@ -1,0 +1,79 @@
+target = "signed-note.md#signatures"
+
+# Signatures
+#
+#     — <key name> base64(32-bit key ID || signature)
+# 
+# The tuple of key name and key ID uniquely identifies the key that performed the
+# signature and the algorithm it used. Verifiers MUST ignore signatures from
+# unknown keys, even if they share a name or ID (but not both) with a known key.
+# If the key name and ID match a known key, verifiers MUST verify the signature.
+# If a signature from a known key fails to verify, clients SHOULD reject the whole
+# note. If no signature from a known key verifies successfully, clients MUST
+# reject the note.
+# 
+# Note that the key ID is intentionally short, as it is an identifier, and not a
+# cryptographically strong hash. An attacker can easily compute a public key that
+# will collide a target key hash, but all they will get is a signature
+# verification failure, because the client was necessarily securely configured
+# with the expected public key for the key hash.
+# 
+# It is RECOMMENDED that key names be schema-less URLs (e.g. `example.com/abc123`),
+# to avoid accidental collisions. Those endpoints don’t need to be reachable over
+# the network.
+# 
+# It is RECOMMENDED that key IDs be the first four bytes (interpreted in
+# big-endian order) of the SHA-256 hash of the following sequence: the key name, a
+# newline, a single signature type identifier byte assigned below, and the
+# encoding of the public key. Note that this allows reusing the same cryptographic
+# key and name for different signature types without ambiguity, if necessary (and
+# if domain separation can be ensured).
+# 
+#     key ID = SHA-256(key name || 0x0A || signature type || public key)[:4]
+# 
+# Accidental collisions of *both* key name and key ID can lead to errors if
+# signatures from colliding keys pairs are applied to the same note. The
+# recommendations above make such collisions exceedingly unlikely.
+
+[[spec]]
+level = "MUST"
+quote = '''
+Verifiers MUST ignore signatures from
+unknown keys, even if they share a name or ID (but not both) with a known key.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+If the key name and ID match a known key, verifiers MUST verify the signature.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+If a signature from a known key fails to verify, clients SHOULD reject the whole
+note.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+If no signature from a known key verifies successfully, clients MUST
+reject the note.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+It is RECOMMENDED that key names be schema-less URLs (e.g.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+It is RECOMMENDED that key IDs be the first four bytes (interpreted in
+big-endian order) of the SHA-256 hash of the following sequence: the key name, a
+newline, a single signature type identifier byte assigned below, and the
+encoding of the public key.
+'''
+

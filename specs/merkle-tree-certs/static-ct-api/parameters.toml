@@ -1,0 +1,31 @@
+target = "static-ct-api.md#parameters"
+
+# Parameters
+#
+# A CT log that implements the Static API is defined by a public key (hashed into
+# a LogID, as per RFC 6962, Section 3.2), and by two URL prefixes: the *submission
+# prefix* for write APIs and the *monitoring prefix* for read APIs.
+# 
+# A log MAY use the same value for both the *submission prefix* and the
+# *monitoring prefix*.
+# 
+# For example, a log with
+# 
+#    * *submission prefix* `https://rome.ct.example.com/2024h1/` and
+#    * *monitoring prefix* `https://rome2024h1.bucket.example.org/`
+# 
+# will serve API endpoints defined below at
+# 
+# `https://rome.ct.example.com/2024h1/ct/v1/add-chain`
+# 
+# and
+# 
+# `https://rome2024h1.bucket.example.org/checkpoint`
+
+[[spec]]
+level = "MAY"
+quote = '''
+A log MAY use the same value for both the *submission prefix* and the
+*monitoring prefix*.
+'''
+

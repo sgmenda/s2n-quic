@@ -1,0 +1,121 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-6.2"
+
+# Standalone Certificates
+#
+#    A _standalone certificate_ is a Merkle Tree certificate which
+#    contains sufficient signatures to allow a relying party to trust the
+#    choice of subtree, without any predistributed information beyond the
+#    cosigner(s) parameters.  Standalone certificates can be issued
+#    without significant processing delay.
+# 
+#    When issuing a certificate, the CA first adds the
+#    TBSCertificateLogEntry to its issuance log.  It then schedules a job
+#    to construct a checkpoint and collect cosignatures.  The job proceeds
+#    as follows:
+# 
+#    1.  The CA signs the checkpoint with its key(s) (Section 5.5).
+# 
+#    2.  Using the procedure in Section 4.5, the CA determines the two
+#        subtrees that cover the entries added between this checkpoint and
+#        the most recent checkpoint.
+# 
+#    3.  The CA signs each subtree with its key(s) (Section 5.4).
+# 
+#    4.  The CA requests sufficient checkpoint cosignatures (Section 5.4)
+#        from external cosigners to meet relying party requirements
+#        (Section 7.3).
+# 
+#    5.  The CA requests subtree cosignatures (Appendix C.2) from the
+#        cosigners above.
+# 
+#    6.  For each certificate in the interval, the CA constructs
+#        certificates (Section 6.1) using the covering subtree.
+# 
+#    Steps 4 and 5 are analogous to requesting SCTs from CT logs in
+#    Certificate Transparency, except that a single run of this job
+#    collects signatures for many certificates at once.  The CA MAY
+#    request signatures from a redundant set of cosigners and select the
+#    ones that complete first.
+# 
+#    This document does not prescribe the specific cosigner roles, or a
+#    particular protocol for requesting cosignatures.  Protocols for
+#    cosigners MAY vary depending on the needs for that cosigner.  A
+#    consistency-only cosigner, such as [TLOG-WITNESS], might only require
+#    a checkpoint signature and consistency proof, while a mirroring
+#    cosigner, such as [TLOG-MIRROR] might require the full log contents.
+# 
+#    A cosigner MAY expose a private interface for the CA, to reduce
+#    denial-of-service risk, or a cosigner MAY expose a public interface
+#    for other parties to request additional cosignatures.  The latter may
+#    be useful if a relying party requires a cosigner that the CA does not
+#    communicate with.  In this case, an authenticating party MAY request
+#    cosignatures and add them to the certificate.  However, it is
+#    RECOMMENDED that the CA collect cosignatures for the authenticating
+#    party.  This simplifies deployment, as relying party policies change
+#    over time.
+# 
+#    This document does not place any requirements on how frequently this
+#    job runs.  More frequent runs results in lower issuance delay, but
+#    higher signing overhead.  It is RECOMMENDED that CAs run at most one
+#    instance of this job at a time, starting the next instance after the
+#    previous one completes.  A single run collects signatures for all
+#    entries since the most recent checkpoint, so there is little benefit
+#    to overlapping them.  Less frequent runs may also aid relying parties
+#    that wish to directly audit signatures, as described in Section 5.2
+#    of [AuditingRevisited], though this document does not define such a
+#    system.
+
+[[spec]]
+level = "MAY"
+quote = '''
+The CA MAY
+request signatures from a redundant set of cosigners and select the
+ones that complete first.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Protocols for
+cosigners MAY vary depending on the needs for that cosigner.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+A cosigner MAY expose a private interface for the CA, to reduce
+denial-of-service risk, or a cosigner MAY expose a public interface
+for other parties to request additional cosignatures.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+A cosigner MAY expose a private interface for the CA, to reduce
+denial-of-service risk, or a cosigner MAY expose a public interface
+for other parties to request additional cosignatures.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+In this case, an authenticating party MAY request
+cosignatures and add them to the certificate.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+However, it is
+RECOMMENDED that the CA collect cosignatures for the authenticating
+party.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+It is RECOMMENDED that CAs run at most one
+instance of this job at a time, starting the next instance after the
+previous one completes.
+'''
+

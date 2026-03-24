@@ -1,0 +1,172 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-5.6.1"
+
+# Log Pruning
+#
+#    Over time, an issuance log's entries will expire and likely be
+#    replaced as certificates are renewed.  As this happens, the total
+#    size of the log grows, even if the unexpired subset remains fixed.
+#    To mitigate this, issuance logs MAY be _pruned_, as described in this
+#    section.
+# 
+#    Pruning makes some prefix of the log unavailable, without changing
+#    the tree structure.  It may be used to reduce the serving cost of
+#    long-lived logs, where any entries have long expired.  Section 10.3
+#    discusses policies on when pruning may be permitted.  This section
+#    discusses how it is done and the impact on log structure.
+# 
+#    An issuance log is pruned by updating its _minimum index_ parameter
+#    (Section 5.1).  The minimum index is the index of the first log entry
+#    that the log publishes.  (See Section 5.6.)  It MUST be less than or
+#    equal to the tree size of the log's current checkpoint, and also
+#    satisfy any availability policies set by relying parties who trust
+#    the CA.
+# 
+#    An entry is said to be _available_ if its index is greater than or
+#    equal to the minimum index.  A checkpoint is said to be available if
+#    its tree size is greater than the minimum index.  A subtree [start,
+#    end) is said to be available if end is greater than the minimum
+#    index.
+# 
+#    Log protocols MUST serve enough information to allow a log client to
+#    efficiently obtain the following:
+# 
+#    *  Signatures over the latest checkpoint by the CA's cosigners
+#       (Section 5.5)
+# 
+#    *  Any individual available log entry (Section 5.3)
+# 
+#    *  The hash value of any available checkpoint
+# 
+#    *  An inclusion proof (Section 2.1.3 of [RFC9162]) for any available
+#       entry to any containing checkpoint
+# 
+#    *  A consistency proof (Section 2.1.4 of [RFC9162]) between any two
+#       available checkpoints
+# 
+#    *  The hash value of any available subtree (Section 4)
+# 
+#    *  A subtree inclusion proof (Section 4.3) for any available entry in
+#       any containing subtree
+# 
+#    *  A subtree consistency proof (Section 4.4) between any available
+#       subtree to any containing checkpoint
+# 
+#    Meeting these requirements requires a log to retain some information
+#    about pruned entries.  Given a node [start, end) in the Merkle Tree,
+#    if end is less than or equal to the minimum index, the node's
+#    children MAY be discarded in favor of the node's hash.
+# 
+#    Figure 11 shows an example pruned tree with 13 elements, where the
+#    minimum index is 7.  It shows the original tree, followed by the
+#    pruned tree.  The pruned tree depicts the nodes that MUST be
+#    available or computable.  Note that entry 6 MAY be discarded, only
+#    the hash of entry 6 must be available.
+# 
+#                    +-----------------------------+
+#                    |            [0, 13)          |
+#                    +-----------------------------+
+#                       /                       \
+#           +----------------+             +----------------+
+#           |     [0, 8)     |             |     [8, 13)    |
+#           +----------------+             +----------------+
+#            /              \                 /          |
+#       +--------+      +--------+      +---------+      |
+#       | [0, 4) |      | [4, 8) |      | [8, 12) |      |
+#       +--------+      +--------+      +---------+      |
+#        /      \        /      \         /      \       |
+#    +-----+ +-----+ +-----+ +-----+ +------+ +-------+  |
+#    |[0,2)| |[2,4)| |[4,6)| |[6,8)| |[8,10)| |[10,12)|  |
+#    +-----+ +-----+ +-----+ +-----+ +------+ +-------+  |
+#      / \     / \     / \     / \     / \      / \      |
+#    +=+ +=+ +=+ +=+ +=+ +=+ +=+ +=+ +=+ +=+ +==+ +==+ +==+
+#    |0| |1| |2| |3| |4| |5| |6| |7| |8| |9| |10| |11| |12|
+#    +=+ +=+ +=+ +=+ +=+ +=+ +=+ +=+ +=+ +=+ +==+ +==+ +==+
+# 
+#                    +-----------------------------+
+#                    |            [0, 13)          |
+#                    +-----------------------------+
+#                       /                       \
+#           +----------------+             +----------------+
+#           |     [0, 8)     |             |     [8, 13)    |
+#           +----------------+             +----------------+
+#            /              \                 /          |
+#       +--------+      +--------+      +---------+      |
+#       | [0, 4) |      | [4, 8) |      | [8, 12) |      |
+#       +--------+      +--------+      +---------+      |
+#                        /      \         /      \       |
+#                    +-----+ +-----+ +------+ +-------+  |
+#                    |[4,6)| |[6,8)| |[8,10)| |[10,12)|  |
+#                    +-----+ +-----+ +------+ +-------+  |
+#                              / \     / \      / \      |
+#                            +-+ +=+ +=+ +=+ +==+ +==+ +==+
+#                            |6| |7| |8| |9| |10| |11| |12|
+#                            +-+ +=+ +=+ +=+ +==+ +==+ +==+
+# 
+#         Figure 11: An example showing the minimum nodes that must be
+#                           available after pruning
+# 
+#    Logs MAY retain additional nodes, or expect log clients to compute
+#    required nodes from other nodes.  For example, in Figure 11, the
+#    log's serving protocol MAY instead serve [0, 2) and [2, 4), with the
+#    log client computing [0, 4) from those values.
+
+[[spec]]
+level = "MAY"
+quote = '''
+To mitigate this, issuance logs MAY be _pruned_, as described in this
+section.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+(See Section 5.6.)  It MUST be less than or
+equal to the tree size of the log's current checkpoint, and also
+satisfy any availability policies set by relying parties who trust
+the CA.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Log protocols MUST serve enough information to allow a log client to
+efficiently obtain the following:
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Given a node [start, end) in the Merkle Tree,
+if end is less than or equal to the minimum index, the node's
+children MAY be discarded in favor of the node's hash.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+The pruned tree depicts the nodes that MUST be
+available or computable.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Note that entry 6 MAY be discarded, only
+the hash of entry 6 must be available.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Logs MAY retain additional nodes, or expect log clients to compute
+required nodes from other nodes.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+For example, in Figure 11, the
+log's serving protocol MAY instead serve [0, 2) and [2, 4), with the
+log client computing [0, 4) from those values.
+'''
+

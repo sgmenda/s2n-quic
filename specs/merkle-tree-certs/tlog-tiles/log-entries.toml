@@ -1,0 +1,114 @@
+target = "tlog-tiles.md#log-entries"
+
+# Log entries
+#
+# The log entries are served as a “entry bundles” at
+# 
+# 	<prefix>/tile/entries/<N>[.p/<W>]
+# 
+# with `Content-Type: application/octet-stream`.
+# 
+# `<N>` and `.p/<W>` have the same meaning as in Merkle Tree tile paths above.
+# 
+# Entry bundles SHOULD be compressed at the HTTP layer. Logs MAY use
+# `Content-Encoding: gzip` with no negotiation, or any compression algorithm
+# requested by the client with `Accept-Encoding`. Clients SHOULD include `gzip`
+# and `identity` in their `Accept-Encoding` headers.
+# 
+# This endpoint is immutable, so its caching headers SHOULD be long-lived.
+# 
+# Entry bundles are sequences of big-endian uint16 length-prefixed log entries.
+# Each entry in a bundle hashes to the corresponding entry in the corresponding
+# “level 0” Merkle Tree tile. Hashing of entries is performed according to RFC
+# 6962, Section 2.1.  As above, a full bundle has a *start index* and *end index*,
+# defined the same as above for “level 0”.
+# 
+# TODO: check if current logs need bigger leaves.
+# 
+# A client, such as a Monitor, that “tails” a rapidly (> 200 entries per
+# checkpoint) growing log SHOULD, as an optimization, avoid fetching partial entry
+# bundles when possible. If applying this optimization, the client MUST fetch the
+# corresponding partial “level 0” tile, and use that to verify the current
+# checkpoint. When fetching a subsequent checkpoint, the client MUST verify its
+# consistency with the current checkpoint. If an entry bundle remains partial for
+# too long (as defined by client policy), the client MUST fetch it to prevent
+# delaying entries from being processed indefinitely.
+# 
+# Logs MAY serve entries in different formats, for example due to backwards
+# compatibility concerns. If they do, they SHOULD also serve entry bundles, and
+# MUST serve the differently-encoded entries at a different URL from the specified
+# entry bundle URL.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Entry bundles SHOULD be compressed at the HTTP layer.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Logs MAY use
+`Content-Encoding: gzip` with no negotiation, or any compression algorithm
+requested by the client with `Accept-Encoding`.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Clients SHOULD include `gzip`
+and `identity` in their `Accept-Encoding` headers.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+This endpoint is immutable, so its caching headers SHOULD be long-lived.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+A client, such as a Monitor, that “tails” a rapidly (> 200 entries per
+checkpoint) growing log SHOULD, as an optimization, avoid fetching partial entry
+bundles when possible.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+If applying this optimization, the client MUST fetch the
+corresponding partial “level 0” tile, and use that to verify the current
+checkpoint.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+When fetching a subsequent checkpoint, the client MUST verify its
+consistency with the current checkpoint.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+If an entry bundle remains partial for
+too long (as defined by client policy), the client MUST fetch it to prevent
+delaying entries from being processed indefinitely.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Logs MAY serve entries in different formats, for example due to backwards
+compatibility concerns.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+If they do, they SHOULD also serve entry bundles, and
+MUST serve the differently-encoded entries at a different URL from the specified
+entry bundle URL.
+'''
+

@@ -1,0 +1,35 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-7.1"
+
+# Trust Anchors
+#
+#    In order to accept certificates from a Merkle Tree CA, a relying
+#    party MUST be configured with:
+# 
+#    *  The log ID (Section 5.2)
+# 
+#    *  A set of supported cosigners, as pairs of cosigner ID and public
+#       key
+# 
+#    *  A policy on which combinations of cosigners to accept in a
+#       certificate (Section 7.3)
+# 
+#    *  An optional list of trusted subtrees, with their hashes, that are
+#       known to be consistent with the relying party's cosigner
+#       requirements (Section 7.4)
+# 
+#    *  A list of revoked ranges of indices (Section 7.5)
+# 
+#    [[TODO: Define some representation for this.  In a trust anchor,
+#    there's a lot of room for flexibility in what the client stores.  In
+#    principle, we could even encode some of this information in an X.509
+#    intermediate certificate, if an application wishes to use this with a
+#    delegation model with intermediates, though the security story
+#    becomes more complex.  Decide how/whether to do that.]]
+
+[[spec]]
+level = "MUST"
+quote = '''
+In order to accept certificates from a Merkle Tree CA, a relying
+party MUST be configured with:
+'''
+

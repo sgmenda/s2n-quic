@@ -1,0 +1,131 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-5.4.1"
+
+# Signature Format
+#
+#    A cosigner computes a cosignature for a subtree in a log by signing a
+#    MTCSubtreeSignatureInput, defined below using the TLS presentation
+#    language (Section 3 of [RFC8446]):
+# 
+#    opaque HashValue[HASH_SIZE];
+# 
+#    /* From Section 4.1 of draft-ietf-tls-trust-anchor-ids */
+#    opaque TrustAnchorID<1..2^8-1>;
+# 
+#    struct {
+#        TrustAnchorID log_id;
+#        uint64 start;
+#        uint64 end;
+#        HashValue hash;
+#    } MTCSubtree;
+# 
+#    struct {
+#        uint8 label[16] = "mtc-subtree/v1\n\0";
+#        TrustAnchorID cosigner_id;
+#        MTCSubtree subtree;
+#    } MTCSubtreeSignatureInput;
+# 
+#    log_id MUST be the issuance log's ID (Section 5.2), in its binary
+#    representation (Section 3 of [I-D.ietf-tls-trust-anchor-ids]). start
+#    and end MUST define a valid subtree of the log, and hash MUST be the
+#    subtree's hash value in the cosigner's view of the log.  The label is
+#    a fixed prefix for domain separation.  Its value MUST be the string
+#    mtc-subtree/v1, followed by a newline (U+000A), followed by a zero
+#    byte (U+0000). cosigner_id MUST be the cosigner ID, in its binary
+#    representation.
+# 
+#    The resulting signature is known as a _subtree signature_. When start
+#    is zero, the resulting signature describes the checkpoint with tree
+#    size end and is also known as a _checkpoint signature_.
+# 
+#    For each supported log, a cosigner retains its checkpoint signature
+#    with the largest end.  This is known as the cosigner's _current_
+#    checkpoint.  If the cosigner's current checkpoint has tree size
+#    tree_size, it MUST NOT generate a signature for a subtree [start,
+#    end) if start > 0 and end > tree_size.  That is, a cosigner can only
+#    sign a non-checkpoint subtree if it is contained in its current
+#    checkpoint.  In a correctly-operated cosigner, every signature made
+#    by the cosigner can be proven consistent with its current checkpoint
+#    with a subtree consistency proof (Section 4.4).  As a consequence, a
+#    cosigner that signs a subtree is held responsible for all the entries
+#    in the tree of size matching the subtree end, even if the
+#    corresponding checkpoint is erroneously unavailable.
+# 
+#    Before signing a subtree, the cosigner MUST ensure that hash is
+#    consistent with its log state.  Different cosigner roles may obtain
+#    this assurance differently.  For example, a cosigner may compute the
+#    hash from its saved log state (e.g. if it is the log operator or
+#    maintains a copy of the log) or by verifying a subtree consistency
+#    proof (Section 4.4) from its current checkpoint.  When a cosigner
+#    signs a subtree, it is held responsible _both_ for the subtree being
+#    consistent with its other signatures, _and_ for the cosigner-specific
+#    additional statements.
+# 
+#    Cosigners SHOULD publish their current checkpoint, along with the
+#    checkpoint signature.
+# 
+#    [[TODO: CT and tlog put timestamps in checkpoint signatures.  Do we
+#    want them here?  In CT and tlog, the timestamps are monotonically
+#    increasing as the log progresses, but we also sign subtrees.  We can
+#    separate subtree and checkpoint signatures, with timestamps only in
+#    the latter, but it's unclear if there is any benefit to this.]]
+
+[[spec]]
+level = "MUST"
+quote = '''
+log_id MUST be the issuance log's ID (Section 5.2), in its binary
+representation (Section 3 of [I-D.ietf-tls-trust-anchor-ids]).
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+start
+and end MUST define a valid subtree of the log, and hash MUST be the
+subtree's hash value in the cosigner's view of the log.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+start
+and end MUST define a valid subtree of the log, and hash MUST be the
+subtree's hash value in the cosigner's view of the log.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Its value MUST be the string
+mtc-subtree/v1, followed by a newline (U+000A), followed by a zero
+byte (U+0000).
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+cosigner_id MUST be the cosigner ID, in its binary
+representation.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+If the cosigner's current checkpoint has tree size
+tree_size, it MUST NOT generate a signature for a subtree [start,
+end) if start > 0 and end > tree_size.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Before signing a subtree, the cosigner MUST ensure that hash is
+consistent with its log state.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Cosigners SHOULD publish their current checkpoint, along with the
+checkpoint signature.
+'''
+

@@ -1,0 +1,23 @@
+target = "static-ct-api.md#monitoring-apis"
+
+# Monitoring APIs
+#
+# The entries in a log that implements the Static API, as well as accessory
+# information such as proofs and signed tree heads, are exposed not through the
+# RFC 6962 dynamic APIs, but as static assets which can be fetched with HTTP GET
+# requests, and which can be efficiently cached and compressed.
+# 
+# Note that all cryptographic operations (such as hashes and signatures) are as
+# specified by RFC 6962, so these APIs can be thought of as an alternative
+# encoding format for the same data, and operators MAY run a full RFC 6962
+# interface as a reverse proxy in front of a Static API log.
+
+[[spec]]
+level = "MAY"
+quote = '''
+Note that all cryptographic operations (such as hashes and signatures) are as
+specified by RFC 6962, so these APIs can be thought of as an alternative
+encoding format for the same data, and operators MAY run a full RFC 6962
+interface as a reverse proxy in front of a Static API log.
+'''
+

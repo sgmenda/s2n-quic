@@ -1,0 +1,90 @@
+target = "draft-ietf-tls-trust-anchor-ids.txt#section-4.3"
+
+# Retry Mechanism
+#
+#    When the relying party is a client, it may choose not to send its
+#    full trust anchor ID list due to fingerprinting risks (see
+#    Section 8), or because the list is too large.  The client MAY send a
+#    subset of supported trust anchors, or an empty list.  This subset may
+#    be determined by, possibly outdated, prior knowledge about the
+#    server, such as Section 5 or past connections.
+# 
+#    To accommodate this, when receiving a ClientHello with trust_anchors,
+#    the server collects all candidate certification paths which:
+# 
+#    *  Have a trust anchor ID, and
+# 
+#    *  Satisfy the conditions in Section 4.4.2.2 of [RFC8446], with the
+#       exception of certification_authorities, and any future extensions
+#       that play a similar role
+# 
+#    If this collection is non-empty, the server sends a trust_anchors
+#    extension in EncryptedExtensions, containing the corresponding trust
+#    anchor IDs in preference order.
+# 
+#    When a client sends a subset or empty list in trust_anchors, it
+#    SHOULD implement the following retry mechanism:
+# 
+#    If the client receives either a connection error or an untrusted
+#    certificate, the client looks in server's EncryptedExtensions for a
+#    trust anchor ID that it trusts.  If there are multiple, it selects an
+#    option based on the server's preference order and its local
+#    preferences.  It then makes a new connection to the same endpoint,
+#    sending only the selected trust anchor ID in the ClientHello
+#    trust_anchors extension.  If the EncryptedExtensions had no
+#    trust_anchor extension, or no match was found, the client returns the
+#    error to the application.
+# 
+#    Clients SHOULD retry at most once per connection attempt.
+# 
+#    [[TODO: Retrying in a new connection is expensive and cannot be done
+#    from within the TLS stack in most implementations.  Consider
+#    handshake modifications to instead retry within the same connection.
+#    https://github.com/tlswg/tls-trust-anchor-ids/issues/53 ]]
+# 
+#    This mechanism allows the connection to recover from a certificate
+#    selection failure, e.g. due to the client not revealing its full
+#    preference list, at additional latency cost.  Section 5 describes an
+#    optimization which can avoid this cost.
+# 
+#    This mechanism also allows servers to safely send fallback
+#    certificates that may not be as ubiquitously acceptable.  Without
+#    some form of trust anchor negotiation, servers are limited to
+#    selecting certification paths that are ubiquitously trusted in all
+#    supported clients.  This often means sending extra cross-certificates
+#    to target the lowest common denominator at a bandwidth cost.  If the
+#    ClientHello contains trust_anchors, the server MAY opportunistically
+#    send a less ubiquitous, more bandwidth-efficient path based on local
+#    heuristics, with the expectation that the client will retry when the
+#    heuristics fail.
+
+[[spec]]
+level = "MAY"
+quote = '''
+The client MAY send a
+subset of supported trust anchors, or an empty list.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+When a client sends a subset or empty list in trust_anchors, it
+SHOULD implement the following retry mechanism:
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Clients SHOULD retry at most once per connection attempt.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+If the
+ClientHello contains trust_anchors, the server MAY opportunistically
+send a less ubiquitous, more bandwidth-efficient path based on local
+heuristics, with the expectation that the client will retry when the
+heuristics fail.
+'''
+

@@ -1,0 +1,46 @@
+target = "draft-ietf-tls-trust-anchor-ids.txt#section-5.3"
+
+# Client Behavior
+#
+#    When connecting to a service endpoint whose HTTPS or SVCB record
+#    contains the tls-trust-anchors parameter, the client first computes
+#    the intersection between its configured trust anchors and the
+#    server's provided list.  If this intersection is non-empty, the
+#    client MAY use it to determine the trust_anchors extension in the
+#    ClientHello (see Section 4.3).
+# 
+#    If doing so, the client MAY send a subset of this intersection to
+#    meet size constraints, but SHOULD offer multiple options.  This
+#    reduces the chance of a reconnection if, for example, the first
+#    option in the intersection uses a signature algorithm that the client
+#    doesn't support, or if the TLS server and DNS configuration are out
+#    of sync.
+# 
+#    Although this service parameter is intended to reduce trust anchor
+#    mismatches, mismatches may still occur in some scenarios.  Clients
+#    and servers MUST continue to implement the provisions described in
+#    Section 4.3, even when using this service parameter.
+
+[[spec]]
+level = "MAY"
+quote = '''
+If this intersection is non-empty, the
+client MAY use it to determine the trust_anchors extension in the
+ClientHello (see Section 4.3).
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+If doing so, the client MAY send a subset of this intersection to
+meet size constraints, but SHOULD offer multiple options.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Clients
+and servers MUST continue to implement the provisions described in
+Section 4.3, even when using this service parameter.
+'''
+

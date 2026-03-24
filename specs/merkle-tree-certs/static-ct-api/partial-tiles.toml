@@ -1,0 +1,94 @@
+target = "static-ct-api.md#partial-tiles"
+
+# Partial Tiles
+#
+# Some or all of the rightmost tiles in a tree will always be _partial_. A partial
+# tile contains between 1 and 255 hashes, and MUST NOT be hashed into a tile at
+# the level above.
+# 
+# The partial tile at level *l* for a tree of size *s* has `floor(s / 256**l) mod
+# 256` entries. Empty tiles MUST NOT be served.
+# 
+# For example, a tree of size 70,000 will be represented by 273 full level 0
+# tiles, one partial level 0 tile of width 112, one full level 1 tile, one partial
+# level 1 tile of width 17, and one partial level 2 tile of width 1. Note that a
+# tree of size 256 will be represented by a full level 0 tile and a partial level
+# 1 tile of width 1.
+# 
+# Logs MUST serve partial tiles corresponding to tree sizes for which a
+# checkpoint was produced, but MAY omit any partial tile for which the
+# corresponding full tile is available. Clients MUST NOT fetch arbitrary partial
+# tiles without verifying a checkpoint with a size that requires their existence,
+# and SHOULD fetch the full tile in parallel as a fallback in case the partial
+# tile is not available anymore.
+# 
+# A client, such as a Monitor, that “tails” a log SHOULD, as an optimization,
+# avoid fetching partial data tiles when possible.
+# If applying this optimization, the client MUST fetch the corresponding partial
+# “level 0” tile, and use that to verify the current checkpoint.
+# When fetching a subsequent checkpoint, the client MUST verify its consistency
+# with the current checkpoint.
+# If a data tile remains partial for too long (as defined by client policy),
+# the client MUST fetch it to prevent delaying entries from being processed
+# indefinitely.
+
+[[spec]]
+level = "MUST"
+quote = '''
+A partial
+tile contains between 1 and 255 hashes, and MUST NOT be hashed into a tile at
+the level above.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Empty tiles MUST NOT be served.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Logs MUST serve partial tiles corresponding to tree sizes for which a
+checkpoint was produced, but MAY omit any partial tile for which the
+corresponding full tile is available.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Clients MUST NOT fetch arbitrary partial
+tiles without verifying a checkpoint with a size that requires their existence,
+and SHOULD fetch the full tile in parallel as a fallback in case the partial
+tile is not available anymore.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+A client, such as a Monitor, that “tails” a log SHOULD, as an optimization,
+avoid fetching partial data tiles when possible.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+If applying this optimization, the client MUST fetch the corresponding partial
+“level 0” tile, and use that to verify the current checkpoint.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+When fetching a subsequent checkpoint, the client MUST verify its consistency
+with the current checkpoint.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+If a data tile remains partial for too long (as defined by client policy),
+the client MUST fetch it to prevent delaying entries from being processed
+indefinitely.
+'''
+

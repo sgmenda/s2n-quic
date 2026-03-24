@@ -1,0 +1,131 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-7.3"
+
+# Trusted Cosigners
+#
+#    A relying party's cosigner policy determines the sets of cosigners
+#    that must sign a view of the issuance log before it is trusted.
+# 
+#    This document does not prescribe a particular policy, but gives
+#    general guidance.  Relying parties MAY implement policies other than
+#    those described below, and MAY incorporate cosigners acting in roles
+#    not described in this document.
+# 
+#    In picking trusted cosigners, the relying party SHOULD ensure the
+#    following security properties:
+# 
+#    Authenticity:  The relying party only accepts entries certified by
+#       the CA
+# 
+#    Transparency:  The relying party only accepts entries that are
+#       publicly accessible, so that monitors, particularly the subject of
+#       the certificate, can notice any unauthorized certificates
+# 
+#    Relying parties SHOULD ensure authenticity by requiring a signature
+#    from the most recent CA cosigner key.  If the CA is transitioning
+#    from an old to new key, the relying party SHOULD accept both keys
+#    until certificates that predate the new key expire.  This is
+#    analogous to the signature in a traditional X.509 certificate.
+# 
+#    While a CA signature is sufficient to prove a subtree came from the
+#    CA, this is not enough to ensure the certificate is visible to
+#    monitors.  A misbehaving CA might not operate the log correctly,
+#    either presenting inconsistent versions of the log to relying parties
+#    and monitors, or refusing to publish some entries.
+# 
+#    To mitigate this, relying parties SHOULD ensure transparency by
+#    requiring a quorum of signatures from additional cosigners.  At
+#    minimum, these cosigners SHOULD enforce a consistent view of the log.
+#    For example, [TLOG-WITNESS] describes a lightweight "witness"
+#    cosigner role that checks this with consistency proofs.  This is not
+#    sufficient to ensure durable logging.  Section 7.5 discusses
+#    mitigations for this.  Alternatively, a relying party MAY require
+#    that cosigners serve a copy of the log, in addition to enforcing a
+#    consistent view.  For example, [TLOG-MIRROR] describes a "mirror"
+#    cosigner role.
+# 
+#    Relying parties MAY accept the same set of additional cosigners
+#    across issuance logs.
+# 
+#    Cosigner roles are extensible without changes to certificate
+#    verification itself.  Future specifications and individual
+#    deployments MAY define other cosigner roles to incorporate in relying
+#    party policies.
+# 
+#    Section 10.2 discusses additional deployment considerations in
+#    cosigner selection.
+
+[[spec]]
+level = "MAY"
+quote = '''
+Relying parties MAY implement policies other than
+those described below, and MAY incorporate cosigners acting in roles
+not described in this document.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Relying parties MAY implement policies other than
+those described below, and MAY incorporate cosigners acting in roles
+not described in this document.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+In picking trusted cosigners, the relying party SHOULD ensure the
+following security properties:
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Relying parties SHOULD ensure authenticity by requiring a signature
+from the most recent CA cosigner key.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+If the CA is transitioning
+from an old to new key, the relying party SHOULD accept both keys
+until certificates that predate the new key expire.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+To mitigate this, relying parties SHOULD ensure transparency by
+requiring a quorum of signatures from additional cosigners.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+At
+minimum, these cosigners SHOULD enforce a consistent view of the log.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Alternatively, a relying party MAY require
+that cosigners serve a copy of the log, in addition to enforcing a
+consistent view.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Relying parties MAY accept the same set of additional cosigners
+across issuance logs.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Future specifications and individual
+deployments MAY define other cosigner roles to incorporate in relying
+party policies.
+'''
+

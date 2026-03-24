@@ -1,0 +1,61 @@
+target = "tlog-checkpoint.md#note-text"
+
+# Note text
+#
+# The note text is a sequence of at least three non-empty lines, separated by
+# newlines (U+000A).
+# 
+#  1. The first line is the **origin**, a unique identifier for the log identity
+#     which issued the checkpoint. The origin MUST be non-empty, and it SHOULD be
+#     a schema-less URL containing neither Unicode spaces nor plus (U+002B), such
+#     as `example.com/log42`. This is only a recommendation to avoid collisions,
+#     and clients MUST NOT assume that the origin is following this format or that
+#     the URL corresponds to a reachable endpoint.
+# 
+#  2. The second line is the **tree size**, the ASCII decimal representation of
+#     the number of leaves in the tree, with no leading zeroes (unless the tree is
+#     empty, in which case the tree size is `0`).
+# 
+#  3. The third line is the **root hash**, the base64 encoding of the root of the
+#     [RFC 6962] Merkle hash tree at the specified tree size.
+# 
+#  4. Any following lines are **extension lines**, opaque and OPTIONAL. Extension
+#     lines, if any, MUST be non-empty. The use of extension lines is NOT
+#     RECOMMENDED, as they are not auditable by log monitors.
+
+[[spec]]
+level = "MUST"
+quote = '''
+The origin MUST be non-empty, and it SHOULD be
+a schema-less URL containing neither Unicode spaces nor plus (U+002B), such
+as `example.com/log42`.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+This is only a recommendation to avoid collisions,
+and clients MUST NOT assume that the origin is following this format or that
+the URL corresponds to a reachable endpoint.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Any following lines are **extension lines**, opaque and OPTIONAL.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Extension
+lines, if any, MUST be non-empty.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+The use of extension lines is NOT
+RECOMMENDED, as they are not auditable by log monitors.
+'''
+

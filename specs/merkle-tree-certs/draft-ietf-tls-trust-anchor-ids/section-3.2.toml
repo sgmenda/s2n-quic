@@ -1,0 +1,53 @@
+target = "draft-ietf-tls-trust-anchor-ids.txt#section-3.2"
+
+# Authenticating Party Configuration
+#
+#    Authenticating parties are configured with one or more candidate
+#    certification paths to present in TLS, in some preference order.
+#    This preference order is used when multiple candidate paths are
+#    usable for a connection.  For example, the authenticating party may
+#    prefer candidates that minimize message size or have more performant
+#    private keys.
+# 
+#    Each candidate path which participates in this protocol must be
+#    configured with the trust anchor ID for its corresponding trust
+#    anchor.  It is RECOMMENDED, though not required, that this
+#    information come from the CA.  Section 6 defines a RECOMMENDED format
+#    for this information, along with an optional ACME [RFC8555] extension
+#    for CAs to send it.
+# 
+#    Authenticating parties MAY have candidate certification paths without
+#    associated trust anchor IDs, but such paths will not participate in
+#    this protocol.  Those paths MAY participate in other trust anchor
+#    negotiation protocols, such as the certificate_authorities extension.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+It is RECOMMENDED, though not required, that this
+information come from the CA.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Section 6 defines a RECOMMENDED format
+for this information, along with an optional ACME [RFC8555] extension
+for CAs to send it.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Authenticating parties MAY have candidate certification paths without
+associated trust anchor IDs, but such paths will not participate in
+this protocol.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+Those paths MAY participate in other trust anchor
+negotiation protocols, such as the certificate_authorities extension.
+'''
+

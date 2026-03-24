@@ -1,0 +1,65 @@
+target = "signed-note.md#signature-types"
+
+# Signature types
+#
+# The following are the assigned signature type identifier bytes. Other
+# specifications may define the format and semantics of these signature types, and
+# they MAY require specific content structures of the note text.
+# 
+# Although multiple signature types are specified, implementations SHOULD select
+# only the one(s) required for their design, and avoid supporting multiple ones at
+# runtime if possible.
+# 
+# * `0x01` — Ed25519 signatures as specified by this document.
+# 
+# * `0x02` — ECDSA signatures as implemented by github.com/transparency-dev/witness.
+# 
+#   * The ECDSA curve MUST be one of NIST P-256, NIST P-384, or NIST P-521, and
+#     SHOULD be NIST P-256.
+# 
+#   * Note that the key ID for these signatures is the truncated SHA-256 hash of
+#     the DER encoded public key in SPKI format.
+# 
+# * `0x03` — Reserved.
+# 
+# * `0x04` — Timestamped Ed25519 witness cosignatures, as specified by
+#   c2sp.org/tlog-cosignature.
+# 
+# * `0x05` — RFC 6962 `TreeHeadSignature`s, as specified by c2sp.org/static-ct-api.
+# 
+# * `0xfa`–`0xfe` — Reserved for future use.
+# 
+# * `0xff` — Reserved for signature types without an identifier byte assigned by
+#   this specification. It is RECOMMENDED that this byte be followed by a longer
+#   identifier that is unlikely to collide.
+
+[[spec]]
+level = "MAY"
+quote = '''
+Other
+specifications may define the format and semantics of these signature types, and
+they MAY require specific content structures of the note text.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Although multiple signature types are specified, implementations SHOULD select
+only the one(s) required for their design, and avoid supporting multiple ones at
+runtime if possible.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+* The ECDSA curve MUST be one of NIST P-256, NIST P-384, or NIST P-521, and
+SHOULD be NIST P-256.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+It is RECOMMENDED that this byte be followed by a longer
+identifier that is unlikely to collide.
+'''
+

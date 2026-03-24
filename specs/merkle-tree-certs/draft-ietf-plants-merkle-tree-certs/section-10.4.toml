@@ -1,0 +1,66 @@
+target = "draft-ietf-plants-merkle-tree-certs.txt#section-10.4"
+
+# Certificate Renewal
+#
+#    When an authenticating party requests a certificate, the landmark
+#    certificate will not be available until the next landmark is ready.
+#    From there, the landmark certificate will not be available until
+#    relying parties receive new trusted subtrees.
+# 
+#    To maximize coverage of the landmark certificate optimization,
+#    authenticating parties performing routine renewal SHOULD request a
+#    new Merkle Tree certificate before the previous Merkle Tree
+#    certificate expires.  Renewing around 75% of the way through the
+#    previous certificate's lifetime is RECOMMENDED.  Authenticating
+#    parties additionally SHOULD retain both the new and old certificates
+#    in the certificate set until the old certificate expires.  As the new
+#    subtrees are delivered to relying parties, certificate negotiation
+#    will transition relying parties to the new certificate, while
+#    retaining the old certificate for relying parties that are not yet
+#    updated.
+# 
+#    The above also applies if the authenticating party is performing a
+#    routine key rotation alongside the routine renewal.  In this case,
+#    certificate negotiation would pick the key as part of the certificate
+#    selection.  This slightly increases the lifetime of the old key but
+#    maintains the size optimization continuously.
+# 
+#    If the service is rotating keys in response to a key compromise, this
+#    option is not appropriate.  Instead, the service SHOULD immediately
+#    discard the old key and request a standalone certificate and the
+#    revocation of the previous certificate.  This will interrupt the size
+#    optimization until the new landmark certificate is available and
+#    relying parties are updated.
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+To maximize coverage of the landmark certificate optimization,
+authenticating parties performing routine renewal SHOULD request a
+new Merkle Tree certificate before the previous Merkle Tree
+certificate expires.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Renewing around 75% of the way through the
+previous certificate's lifetime is RECOMMENDED.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Authenticating
+parties additionally SHOULD retain both the new and old certificates
+in the certificate set until the old certificate expires.
+'''
+
+[[spec]]
+level = "SHOULD"
+quote = '''
+Instead, the service SHOULD immediately
+discard the old key and request a standalone certificate and the
+revocation of the previous certificate.
+'''
+

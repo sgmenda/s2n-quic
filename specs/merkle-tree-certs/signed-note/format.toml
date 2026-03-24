@@ -1,0 +1,73 @@
+target = "signed-note.md#format"
+
+# Format
+#
+# A signed note consists of a text ending in newline (U+000A), followed by a blank
+# line (only a newline), followed by one or more signature lines of this form: em
+# dash (U+2014), space (U+0020), key name, space, base64-encoded signature,
+# newline.
+# 
+# Signed notes MUST be valid UTF-8 and MUST NOT contain any ASCII control
+# characters (those below U+0020) other than newline.
+# 
+# The note text includes the final newline but not the separating blank line. The
+# note text MAY contain empty lines; the text is separated from the signatures by
+# the last empty line in the note.
+# 
+# Key names MUST be non-empty and MUST NOT contain any Unicode spaces or plus
+# (U+002B) characters.
+# 
+# Signatures are the base64 encoding of 4+n bytes. The first four bytes in the
+# signature are the uint32 key ID stored in big-endian order. The remaining n
+# bytes are the result of using the specified key to sign the note text, according
+# to the signature algorithm.
+# 
+# Verifiers SHOULD apply a maximum limit to the number of signatures in a note
+# (or, equivalently, to the overall size of a note), but MUST accept at least up
+# to 16 signatures. Remember that post-quantum signatures can be up to nearly 5kB
+# in size.
+
+[[spec]]
+level = "MUST"
+quote = '''
+Signed notes MUST be valid UTF-8 and MUST NOT contain any ASCII control
+characters (those below U+0020) other than newline.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Signed notes MUST be valid UTF-8 and MUST NOT contain any ASCII control
+characters (those below U+0020) other than newline.
+'''
+
+[[spec]]
+level = "MAY"
+quote = '''
+The
+note text MAY contain empty lines; the text is separated from the signatures by
+the last empty line in the note.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Key names MUST be non-empty and MUST NOT contain any Unicode spaces or plus
+(U+002B) characters.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Key names MUST be non-empty and MUST NOT contain any Unicode spaces or plus
+(U+002B) characters.
+'''
+
+[[spec]]
+level = "MUST"
+quote = '''
+Verifiers SHOULD apply a maximum limit to the number of signatures in a note
+(or, equivalently, to the overall size of a note), but MUST accept at least up
+to 16 signatures.
+'''
+
